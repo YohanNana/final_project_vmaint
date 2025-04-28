@@ -1,0 +1,112 @@
+<app-navbar #navbar></app-navbar>
+
+<!-- Main Layout -->
+<div class="flex">
+    <!-- Sidebar: Show or hide based on sidebarOpen -->
+    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+        <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500">Registered Vehicles</p>
+                        <h3 class="text-2xl font-bold">3</h3>
+                    </div>
+                    <i class="fas fa-car text-blue-500 text-2xl"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-yellow-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500">Upcoming Maintenance</p>
+                        <h3 class="text-2xl font-bold">2</h3>
+                    </div>
+                    <i class="fas fa-tools text-yellow-500 text-2xl"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500">Predicted Issues</p>
+                        <h3 class="text-2xl font-bold">1</h3>
+                    </div>
+                    <i class="fas fa-exclamation-triangle text-green-500 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicles Section -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Your Vehicles</h2>
+                <a routerLink="/vehicle-registration" class="text-blue-500 hover:underline">Add Vehicle</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Vehicle Card 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg">Toyota Camry</h3>
+                                <p class="text-gray-500">ABC-1234</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div>
+                                <p class="text-gray-500 text-sm">Last Service</p>
+                                <p>2 months ago</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Mileage</p>
+                                <p>45,200 km</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <a routerLink="/vehicle-details" class="text-blue-500 hover:underline">View Details</a>
+                            <button class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Card 2 -->
+                
+            </div>
+        </div>
+
+        <!-- Upcoming Maintenance -->
+        <div>
+            <h2 class="text-xl font-semibold mb-4">Upcoming Maintenance</h2>
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="divide-y divide-gray-200">
+                    <!-- Maintenance Item 1 -->
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Oil Change</h3>
+                                <p class="text-gray-500">Toyota Camry (ABC-1234)</p>
+                            </div>
+                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Overdue</span>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-calendar-alt text-gray-400"></i>
+                                <span>Due: 15 days ago</span>
+                            </div>
+                            <button class="text-blue-500 hover:underline">Mark Complete</button>
+                        </div>
+                    </div>
+                    <!-- Maintenance Item 2 -->
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

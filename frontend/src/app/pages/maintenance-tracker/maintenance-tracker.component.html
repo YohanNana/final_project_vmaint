@@ -1,0 +1,151 @@
+<!-- maintenance-tracker.component.html -->
+<app-navbar #navbar></app-navbar>
+
+<!-- maintenance-tracker.component.html -->
+  
+  <div class="flex">
+    
+    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+  
+    <main class="flex-1 p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Maintenance Tracker</h1>
+        <button (click)="addMaintenance()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          <i class="fas fa-plus mr-1"></i> Add Maintenance
+        </button>
+      </div>
+  
+      <!-- Filters -->
+      <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+          <div class="flex-1">
+            <label class="block text-gray-700 mb-1">Vehicle</label>
+            <select class="w-full px-3 py-2 border rounded-lg">
+              <option>All Vehicles</option>
+              <option>Toyota Camry (ABC-1234)</option>
+              <option>Honda Civic (XYZ-5678)</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <label class="block text-gray-700 mb-1">Status</label>
+            <select class="w-full px-3 py-2 border rounded-lg">
+              <option>All Statuses</option>
+              <option>Overdue</option>
+              <option>Upcoming</option>
+              <option>Completed</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <label class="block text-gray-700 mb-1">Service Type</label>
+            <select class="w-full px-3 py-2 border rounded-lg">
+              <option>All Types</option>
+              <option>Oil Change</option>
+              <option>Tire Rotation</option>
+              <option>Brake Service</option>
+            </select>
+          </div>
+          <div class="self-end">
+            <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">
+              <i class="fas fa-filter mr-1"></i> Filter
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Maintenance Cards -->
+      <div class="space-y-4">
+  
+        <!-- Overdue Maintenance -->
+        <div>
+          <h2 class="text-xl font-bold mb-3 text-red-600">
+            <i class="fas fa-exclamation-circle mr-2"></i> Overdue Maintenance
+          </h2>
+          <div class="bg-white border-l-4 border-red-500 p-4 rounded shadow">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold">Oil Change</h3>
+                <p class="text-sm text-gray-600">Toyota Camry (ABC-1234)</p>
+                <p class="text-sm text-gray-600">Due: 15 Oct 2023 (3 days ago)</p>
+              </div>
+              <div class="flex space-x-2">
+                <button class="bg-red-100 text-red-800 px-3 py-1 rounded text-sm hover:bg-red-200">
+                  <i class="fas fa-check mr-1"></i> Mark Complete
+                </button>
+                <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
+                  <i class="fas fa-edit mr-1"></i> Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Upcoming Maintenance -->
+        <div>
+          <h2 class="text-xl font-bold mb-3 text-yellow-600">
+            <i class="fas fa-clock mr-2"></i> Upcoming Maintenance
+          </h2>
+          <div class="space-y-3">
+            <div class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold">Tire Rotation</h3>
+                  <p class="text-sm text-gray-600">Honda Civic (XYZ-5678)</p>
+                  <p class="text-sm text-gray-600">Due: 25 Oct 2023 (in 7 days)</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="bg-green-100 text-green-800 px-3 py-1 rounded text-sm hover:bg-green-200">
+                    <i class="fas fa-check mr-1"></i> Mark Complete
+                  </button>
+                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold">Brake Inspection</h3>
+                  <p class="text-sm text-gray-600">Toyota Camry (ABC-1234)</p>
+                  <p class="text-sm text-gray-600">Due: 5 Nov 2023 (in 18 days)</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="bg-green-100 text-green-800 px-3 py-1 rounded text-sm hover:bg-green-200">
+                    <i class="fas fa-check mr-1"></i> Mark Complete
+                  </button>
+                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Future Maintenance -->
+        <div>
+          <h2 class="text-xl font-bold mb-3 text-blue-600">
+            <i class="fas fa-calendar-alt mr-2"></i> Future Maintenance
+          </h2>
+          <div class="space-y-3">
+            <div class="bg-white border-l-4 border-blue-500 p-4 rounded shadow">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold">Air Filter Replacement</h3>
+                  <p class="text-sm text-gray-600">Toyota Camry (ABC-1234)</p>
+                  <p class="text-sm text-gray-600">Due: Approx. 15 Dec 2023</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </main>
+  </div>
+  

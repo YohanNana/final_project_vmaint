@@ -1,0 +1,137 @@
+<!-- settings.component.html -->
+
+<!-- Navbar -->
+<app-navbar></app-navbar>
+  
+  <!-- Main Content with Sidebar -->
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
+      <div class="space-y-4">
+        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+          <a routerLink="/dashboard" class="flex items-center">
+            <i class="fas fa-tachometer-alt mr-2"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+          <a routerLink="/settings" class="flex items-center">
+            <i class="fas fa-cog mr-2"></i>
+            <span>Settings</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+  
+    <!-- Settings Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-2xl font-bold mb-6">Account Settings</h1>
+  
+      <div class="bg-white p-6 rounded-lg shadow">
+        <!-- Account Settings -->
+        <div class="mb-8">
+          <h2 class="text-lg font-semibold mb-4 border-b pb-2">Account Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-700 mb-2" for="email">Email Address</label>
+              <input type="email" id="email" [(ngModel)]="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
+              <input type="tel" id="phone" [(ngModel)]="phone" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block text-gray-700 mb-2" for="language">Language</label>
+              <select id="language" [(ngModel)]="language" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-700 mb-2" for="timezone">Timezone</label>
+              <select id="timezone" [(ngModel)]="timezone" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>(UTC-05:00) Eastern Time</option>
+                <option>(UTC-06:00) Central Time</option>
+                <option>(UTC-07:00) Mountain Time</option>
+                <option>(UTC-08:00) Pacific Time</option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Notification Settings -->
+        <div class="mb-8">
+          <h2 class="text-lg font-semibold mb-4 border-b pb-2">Notification Preferences</h2>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between" *ngFor="let notification of notifications">
+              <div>
+                <h3 class="font-medium">{{ notification.title }}</h3>
+                <p class="text-sm text-gray-600">{{ notification.description }}</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [(ngModel)]="notification.enabled" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Vehicle Settings -->
+        <div class="mb-8">
+          <h2 class="text-lg font-semibold mb-4 border-b pb-2">Vehicle Preferences</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-gray-700 mb-2" for="defaultUnit">Default Unit System</label>
+              <select id="defaultUnit" [(ngModel)]="defaultUnit" class="w-full md:w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Miles/Gallons (Imperial)</option>
+                <option>Kilometers/Liters (Metric)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-700 mb-2" for="reminderThreshold">Reminder Threshold</label>
+              <select id="reminderThreshold" [(ngModel)]="reminderThreshold" class="w-full md:w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>1 week before due</option>
+                <option>2 weeks before due</option>
+                <option>1 month before due</option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Danger Zone -->
+        <div>
+          <h2 class="text-lg font-semibold mb-4 border-b pb-2 text-red-600">Danger Zone</h2>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+              <div>
+                <h3 class="font-medium">Delete Account</h3>
+                <p class="text-sm text-gray-600">Permanently delete your account and all data</p>
+              </div>
+              <button (click)="confirmDeleteAccount()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                Delete Account
+              </button>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+              <div>
+                <h3 class="font-medium">Export Data</h3>
+                <p class="text-sm text-gray-600">Download all your data in a portable format</p>
+              </div>
+              <button (click)="exportData()" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">
+                Export Data
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Save Button -->
+        <div class="mt-8 flex justify-end">
+          <button (click)="saveSettings()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  

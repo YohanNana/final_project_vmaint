@@ -1,0 +1,111 @@
+<!-- Navbar -->
+<app-navbar #navbar></app-navbar>
+  
+  <div class="flex">
+    <!-- Sidebar -->
+    <!-- Sidebar: Show or hide based on sidebarOpen -->
+    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+  
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold">Register New Vehicle</h1>
+        <a routerLink="/dashboard" class="text-blue-500 hover:underline">Back to Dashboard</a>
+      </div>
+  
+      <div class="bg-white rounded-lg shadow-sm p-6">
+        <form (ngSubmit)="submitForm()" #vehicleForm="ngForm">
+          <!-- Basic Information Section -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Basic Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-gray-700 mb-2">Make</label>
+                <input type="text" [(ngModel)]="vehicle.make" name="make" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Model</label>
+                <input type="text" [(ngModel)]="vehicle.model" name="model" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Year</label>
+                <input type="number" [(ngModel)]="vehicle.year" name="year" required min="1900" max="2025" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">License Plate</label>
+                <input type="text" [(ngModel)]="vehicle.plate" name="plate" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">VIN</label>
+                <input type="text" [(ngModel)]="vehicle.vin" name="vin" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Color</label>
+                <input type="text" [(ngModel)]="vehicle.color" name="color" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+          </div>
+  
+          <!-- Technical Details Section -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Technical Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-gray-700 mb-2">Engine Type</label>
+                <select [(ngModel)]="vehicle.engine" name="engine" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="">Select Engine Type</option>
+                  <option value="gasoline">Gasoline</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="hybrid">Hybrid</option>
+                  <option value="electric">Electric</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Transmission</label>
+                <select [(ngModel)]="vehicle.transmission" name="transmission" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="">Select Transmission</option>
+                  <option value="automatic">Automatic</option>
+                  <option value="manual">Manual</option>
+                  <option value="cvt">CVT</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Current Mileage (km)</label>
+                <input type="number" [(ngModel)]="vehicle.mileage" name="mileage" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Purchase Date</label>
+                <input type="date" [(ngModel)]="vehicle.purchaseDate" name="purchaseDate" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+          </div>
+  
+          <!-- Maintenance History Section -->
+          <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 pb-2 border-b">Initial Maintenance Information</h2>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-gray-700 mb-2">Last Service Date</label>
+                <input type="date" [(ngModel)]="vehicle.lastServiceDate" name="lastServiceDate" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Last Service Type</label>
+                <input type="text" [(ngModel)]="vehicle.lastServiceType" name="lastServiceType" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Oil change, tire rotation, etc.">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2">Next Service Due</label>
+                <input type="date" [(ngModel)]="vehicle.nextServiceDue" name="nextServiceDue" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+            </div>
+          </div>
+  
+          <!-- Form Actions -->
+          <div class="flex justify-end space-x-4">
+            <button type="button" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-100">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Register Vehicle</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  

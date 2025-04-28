@@ -1,0 +1,78 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+  
+  <!-- Sidebar + Content Layout -->
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
+        <div class="space-y-4">
+          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+            <a routerLink="/dashboard" class="flex items-center">
+              <i class="fas fa-tachometer-alt mr-2"></i>
+              <span>Dashboard</span>
+            </a>
+          </div>
+          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+            <a routerLink="/notifications" class="flex items-center">
+              <i class="fas fa-bell mr-2"></i>
+              <span>Notifications</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+  
+    <!-- Main Content -->
+    <div class="flex-1 p-6 bg-gray-100 min-h-screen">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-2xl font-bold mb-4">Notifications</h2>
+  
+        <div class="flex justify-end mb-4 space-x-2">
+          <button (click)="markAllAsRead()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm">Mark all as read</button>
+          <button (click)="clearAll()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm">Clear All</button>
+        </div>
+  
+        <ul class="divide-y divide-gray-200 mb-6">
+          <li class="py-4 flex">
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900">New maintenance scheduled for your vehicle</p>
+              <p class="text-sm text-gray-500">2 hours ago</p>
+            </div>
+          </li>
+          <li class="py-4 flex">
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900">Your tire replacement is due soon</p>
+              <p class="text-sm text-gray-500">1 day ago</p>
+            </div>
+          </li>
+          <li class="py-4 flex">
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900">Oil change recommended based on last service</p>
+              <p class="text-sm text-gray-500">3 days ago</p>
+            </div>
+          </li>
+        </ul>
+  
+        <div class="border-t pt-4">
+          <h3 class="text-lg font-semibold mb-2">Notification Settings</h3>
+  
+          <form (ngSubmit)="saveSettings()">
+            <div class="flex items-center mb-4">
+              <input id="emailNotifications" type="checkbox" [(ngModel)]="emailNotifications" name="emailNotifications" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+              <label for="emailNotifications" class="ml-2 block text-sm text-gray-900">Email Notifications</label>
+            </div>
+            <div class="flex items-center mb-4">
+              <input id="smsAlerts" type="checkbox" [(ngModel)]="smsAlerts" name="smsAlerts" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+              <label for="smsAlerts" class="ml-2 block text-sm text-gray-900">SMS Alerts</label>
+            </div>
+            <div class="flex items-center mb-4">
+              <input id="pushNotifications" type="checkbox" [(ngModel)]="pushNotifications" name="pushNotifications" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+              <label for="pushNotifications" class="ml-2 block text-sm text-gray-900">Push Notifications</label>
+            </div>
+  
+            <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Settings</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

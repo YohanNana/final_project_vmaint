@@ -1,0 +1,22 @@
+<!-- Navbar Component -->
+<nav class="bg-gray-900 p-4 text-white">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <a routerLink="/" class="text-2xl font-bold">Vehicle-Maintenance</a>
+  
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-6">
+        <a routerLink="/dashboard" class="auth-link">Dashboard</a>
+        <a routerLink="/profile" class="auth-link">Profile</a>
+        <a routerLink="/notifications" class="auth-link">Notifications</a>
+        <a routerLink="/settings" class="auth-link">Settings</a>
+        <button (click)="logout()" class="auth-link">Logout</button>
+      </div>
+  
+      <!-- Mobile Hamburger Icon -->
+      <button class="md:hidden" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i> <!-- FontAwesome icon -->
+      </button>
+    </div>
+  </nav>
+  

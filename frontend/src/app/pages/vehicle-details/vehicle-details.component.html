@@ -1,0 +1,187 @@
+<!-- Navbar -->
+<nav class="bg-gray-900 p-4 text-white">
+    <div class="container mx-auto flex justify-between items-center">
+        <a routerLink="/" class="text-2xl font-bold">V-Maint</a>
+        <div class="hidden md:flex space-x-6">
+            <a routerLink="/dashboard" class="auth-link">Dashboard</a>
+            <a routerLink="/profile" class="auth-link">Profile</a>
+            <button (click)="logout()" class="auth-link">Logout</button>
+        </div>
+        <button class="md:hidden" (click)="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Main Content with Sidebar -->
+<div class="flex">
+    <!-- Sidebar (same as dashboard) -->
+    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
+        <div class="space-y-4">
+            <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+                <a routerLink="/dashboard" class="flex items-center">
+                    <i class="fas fa-tachometer-alt mr-2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <!-- Other sidebar items... -->
+        </div>
+    </aside>
+
+    <!-- Vehicle Details -->
+    <main class="flex-1 p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Vehicle Details</h1>
+            <div>
+                <a routerLink="/dashboard" class="text-blue-500 hover:underline mr-4">
+                    <i class="fas fa-arrow-left mr-1"></i> Back to Dashboard
+                </a>
+                <button (click)="editVehicle()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-edit mr-1"></i> Edit
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Vehicle Image -->
+                <div class="md:col-span-1">
+                    <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-car text-6xl text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Vehicle Information -->
+                <div class="md:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-gray-500">Make</h3>
+                            <p class="font-semibold">Toyota</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500">Model</h3>
+                            <p class="font-semibold">Camry</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500">Year</h3>
+                            <p class="font-semibold">2020</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500">License Plate</h3>
+                            <p class="font-semibold">ABC-1234</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500">VIN</h3>
+                            <p class="font-semibold">1HGCM82633A123456</p>
+                        </div>
+                        <div>
+                            <h3 class="text-gray-500">Status</h3>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Active</span>
+                        </div>
+                    </div>
+
+                    <!-- Maintenance Summary -->
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold mb-2">Maintenance Summary</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-blue-50 p-3 rounded">
+                                <h3 class="text-gray-500 text-sm">Current Mileage</h3>
+                                <p class="font-bold">45,320 km</p>
+                            </div>
+                            <div class="bg-yellow-50 p-3 rounded">
+                                <h3 class="text-gray-500 text-sm">Last Oil Change</h3>
+                                <p class="font-bold">42,500 km</p>
+                                <p class="text-xs text-gray-500">Next due in 2,180 km</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded">
+                                <h3 class="text-gray-500 text-sm">Last Tire Rotation</h3>
+                                <p class="font-bold">40,000 km</p>
+                                <p class="text-xs text-gray-500">Next due in 5,320 km</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance History -->
+            <div class="mt-8">
+                <h2 class="text-xl font-bold mb-4">Recent Maintenance</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Date</th>
+                                <th class="text-left py-2">Service Type</th>
+                                <th class="text-left py-2">Mileage</th>
+                                <th class="text-left py-2">Cost</th>
+                                <th class="text-left py-2">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-2">15 Aug 2023</td>
+                                <td class="py-2">Oil Change</td>
+                                <td class="py-2">42,500 km</td>
+                                <td class="py-2">$89.99</td>
+                                <td class="py-2">Used synthetic oil</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2">10 Jun 2023</td>
+                                <td class="py-2">Tire Rotation</td>
+                                <td class="py-2">40,000 km</td>
+                                <td class="py-2">$29.99</td>
+                                <td class="py-2">Included free inspection</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2">15 Mar 2023</td>
+                                <td class="py-2">Brake Inspection</td>
+                                <td class="py-2">37,500 km</td>
+                                <td class="py-2">$0.00</td>
+                                <td class="py-2">No issues found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 text-right">
+                    <a routerLink="/maintenance-history" class="text-blue-500 hover:underline">
+                        View Full Maintenance History <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Upcoming Maintenance -->
+            <div class="mt-8">
+                <h2 class="text-xl font-bold mb-4">Upcoming Maintenance</h2>
+                <div class="space-y-3">
+                    <div class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow">
+                        <div class="flex justify-between">
+                            <div>
+                                <h3 class="font-semibold">Oil Change</h3>
+                                <p class="text-sm text-gray-600">Due in approximately 2,180 km</p>
+                            </div>
+                            <div>
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Upcoming</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white border-l-4 border-blue-500 p-4 rounded shadow">
+                        <div class="flex justify-between">
+                            <div>
+                                <h3 class="font-semibold">Air Filter Replacement</h3>
+                                <p class="text-sm text-gray-600">Due in approximately 4,680 km</p>
+                            </div>
+                            <div>
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Future</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-right">
+                    <a routerLink="/maintenance-tracker" class="text-blue-500 hover:underline">
+                        View All Maintenance Tasks <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

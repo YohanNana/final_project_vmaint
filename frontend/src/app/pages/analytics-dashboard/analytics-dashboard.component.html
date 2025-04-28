@@ -1,0 +1,113 @@
+<!-- Navbar -->
+<app-navbar></app-navbar>
+  
+  <!-- Main Content with Sidebar -->
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
+      <div class="space-y-4">
+        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+          <a routerLink="/dashboard" class="flex items-center">
+            <i class="fas fa-tachometer-alt mr-2"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
+          <a routerLink="/analytics" class="flex items-center">
+            <i class="fas fa-chart-pie mr-2"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+  
+    <!-- Analytics Content -->
+    <main class="flex-1 p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Maintenance Analytics</h1>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-600">Last updated: Today, 12:30 PM</span>
+          <button (click)="refreshAnalytics()" class="bg-gray-200 px-3 py-1 rounded text-sm hover:bg-gray-300">
+            <i class="fas fa-sync-alt mr-1"></i> Refresh
+          </button>
+        </div>
+      </div>
+  
+      <!-- Vehicle Selector -->
+      <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <label class="block text-gray-700 mb-2">Select Vehicle</label>
+        <select class="w-full md:w-1/3 px-3 py-2 border rounded-lg" (change)="updateCharts($event)">
+          <option value="all">All Vehicles</option>
+          <option value="1" selected>Toyota Camry (ABC-1234)</option>
+          <option value="2">Honda Civic (XYZ-5678)</option>
+        </select>
+      </div>
+  
+      <!-- Charts Row 1 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold mb-4">Maintenance Costs (Last 6 Months)</h2>
+          <div class="h-64">
+            <canvas id="costChart"></canvas>
+          </div>
+        </div>
+  
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold mb-4">Service Frequency</h2>
+          <div class="h-64">
+            <canvas id="frequencyChart"></canvas>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Charts Row 2 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold mb-4">Cost Breakdown</h2>
+          <div class="h-64">
+            <canvas id="breakdownChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold mb-4">Mileage vs Service</h2>
+          <div class="h-64">
+            <canvas id="mileageChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-bold mb-4">Average Service Intervals</h2>
+          <div class="h-64">
+            <canvas id="intervalChart"></canvas>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Key Metrics -->
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-lg font-bold mb-4">Key Metrics</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="border rounded p-3">
+            <h3 class="text-gray-500 text-sm">Total Maintenance Cost</h3>
+            <p class="text-2xl font-bold">$1,245.75</p>
+            <p class="text-sm text-gray-500">Last 12 months</p>
+          </div>
+          <div class="border rounded p-3">
+            <h3 class="text-gray-500 text-sm">Average Cost/Month</h3>
+            <p class="text-2xl font-bold">$103.81</p>
+            <p class="text-sm text-gray-500">± $15.20 variance</p>
+          </div>
+          <div class="border rounded p-3">
+            <h3 class="text-gray-500 text-sm">Most Frequent Service</h3>
+            <p class="text-2xl font-bold">Oil Change</p>
+            <p class="text-sm text-gray-500">Every 3.2 months</p>
+          </div>
+          <div class="border rounded p-3">
+            <h3 class="text-gray-500 text-sm">Costliest Service</h3>
+            <p class="text-2xl font-bold">Brake Service</p>
+            <p class="text-sm text-gray-500">$320.50 average</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  

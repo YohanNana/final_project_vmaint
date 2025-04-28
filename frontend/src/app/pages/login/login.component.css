@@ -1,0 +1,16 @@
+.auth-link {
+    display: none;
+  }
+  
+  .guest-link {
+    display: block;
+  }
+  
+  .logged-in .auth-link {
+    display: block;
+  }
+  
+  .logged-in .guest-link {
+    display: none;
+  }
+  
