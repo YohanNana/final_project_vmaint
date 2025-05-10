@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-register',
@@ -14,22 +16,36 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
+  firstName = '';
+  lastName = '';
+  email = '';
+  password = '';
+  confirmPassword = '';
+  message = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match!');
+      this.message = 'Passwords do not match!';
       return;
     }
 
-    // Mock registration logic (replace with real API call later)
-    alert('Registration successful! Redirecting to login...');
-    this.router.navigate(['/login']);
+    const userData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      password: this.password
+    };
+
+    this.authService.register(userData).subscribe({
+      next: (res: { msg: string }) => {
+        this.message = res.msg || 'Registration successful!';
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        this.message = err.error.msg || 'Registration failed.';
+      }
+    });
   }
 }

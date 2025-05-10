@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,21 +16,27 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
+  message = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    // Mock login logic (replace with real auth later)
-    localStorage.setItem('authToken', 'mock-token');
-    document.body.classList.add('logged-in');
-    this.router.navigate(['/dashboard']);
-  }
+    const credentials = {
+      email: this.email,
+      password: this.password
+    };
 
-  logout() {
-    document.body.classList.remove('logged-in');
-    localStorage.removeItem('authToken');
-    this.router.navigate(['/']);
+    this.authService.login(credentials.email, credentials.password).subscribe({
+      next: res => {
+        localStorage.setItem('token', res.token);
+        this.message = 'Login successful!';
+        this.router.navigate(['/dashboard']); // change to your desired route
+      },
+      error: err => {
+        this.message = err.error.msg || 'Login failed.';
+      }
+    });
   }
 }

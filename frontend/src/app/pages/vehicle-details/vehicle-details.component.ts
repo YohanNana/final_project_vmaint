@@ -17,13 +17,13 @@ export class VehicleDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!localStorage.getItem('authToken')) {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 
   logout(): void {
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
 
   editVehicle(): void {

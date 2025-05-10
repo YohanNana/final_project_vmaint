@@ -23,7 +23,7 @@ export class MaintenanceTrackerComponent {
 
   logout() {
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
 
   addMaintenance() {
@@ -36,7 +36,7 @@ export class MaintenanceTrackerComponent {
 
   ngOnInit() {
     if (!this.isAuthenticated()) {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
   }
 

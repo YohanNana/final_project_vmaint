@@ -17,8 +17,36 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email, password });
     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-    res.status(200).json({ message: 'Login successful' });
+    // Return user details without the password
+    const { _id, firstName, lastName } = user;
+    res.status(200).json({
+      message: 'Login successful',
+      user: { _id, email, firstName, lastName } // send only safe info
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getUserByEmail = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email }).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+// export const loginUser = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email, password });
+//     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+//     res.status(200).json({ message: 'Login successful' });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };

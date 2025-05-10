@@ -1,25 +1,41 @@
-import { Component } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component'; // 👈 Import Navbar
+import { Component, OnInit } from '@angular/core';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [
-    NavbarComponent, // 👈 Add Navbar here
-    CommonModule, 
-    RouterModule
-  ],
+  imports:[
+            NavbarComponent, 
+            CommonModule, 
+            RouterModule, 
+            FormsModule
+          ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   isEditMode = false;
 
+  // Define user properties
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.firstName = localStorage.getItem('userFirstName') || '';
+    this.lastName = localStorage.getItem('userLastName') || '';
+    this.email = localStorage.getItem('userEmail') || '';
+  }
+
   logout() {
-    localStorage.removeItem('authToken');
-    window.location.href = '/login';
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   toggleEditMode() {

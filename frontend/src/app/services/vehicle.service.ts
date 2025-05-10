@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,15 +8,9 @@ import { Injectable } from '@angular/core';
 export class VehicleService {
   private apiUrl = 'http://localhost:5000/api/vehicles';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllVehicles() {
+  getVehicles(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
-
-  addVehicle(vehicle: any) {
-    return this.http.post(this.apiUrl, vehicle);
-  }
-
-  // Add more methods as needed
 }

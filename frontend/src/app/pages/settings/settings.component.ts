@@ -19,11 +19,11 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class SettingsComponent {
-  email = 'john.doe@example.com';
-  phone = '(555) 123-4567';
+  email = 'yohan.nana16@gmail.com';
+  phone = '071-4378675';
   language = 'English';
-  timezone = '(UTC-05:00) Eastern Time';
-  defaultUnit = 'Miles/Gallons (Imperial)';
+  timezone = '(UTC+05:30) Asian Time';
+  defaultUnit = 'Kilometers/Liters (Metric)';
   reminderThreshold = '2 weeks before due';
 
   notifications = [
