@@ -11,17 +11,30 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, userData);
+    return this.http.post(`${this.baseUrl}/register`, {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      password: userData.password,
+      phone: userData.phone,
+      accountType: userData.accountType
+    });
   }
+  
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post('http://localhost:5000/api/auth/login', { email, password });
+    return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
   
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get(`http://localhost:5000/api/auth/user/${email}`);
+  
+  getUserByEmail(email: string) {
+    return this.http.get<any>(`${this.baseUrl}/users/email/${email}`);
   }
   
+  
+  updateUserByEmail(email: string, updatedData: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/user/${email}`, updatedData);
+  }
 
   // login(credentials: any): Observable<any> {
   //   return this.http.post(`${this.baseUrl}/login`, credentials);

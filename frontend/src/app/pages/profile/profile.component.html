@@ -64,13 +64,13 @@
             <div class="mb-4">
               <label class="block text-gray-500 mb-1">Email</label>
               <p *ngIf="!isEditMode">{{ email }}</p>
-              <input *ngIf="isEditMode" type="email" [(ngModel)]="email" class="w-full px-3 py-2 border rounded-lg">
+              <!-- <input *ngIf="isEditMode" type="email" [(ngModel)]="email" class="w-full px-3 py-2 border rounded-lg"> -->
             </div>
   
             <div class="mb-4">
               <label class="block text-gray-500 mb-1">Phone</label>
-              <p *ngIf="!isEditMode">071-4378675</p>
-              <input *ngIf="isEditMode" type="tel" value="(555) 123-4567" class="w-full px-3 py-2 border rounded-lg">
+              <p *ngIf="!isEditMode">{{ phone }}</p>
+              <input *ngIf="isEditMode" type="tel" [(ngModel)]="phone" class="w-full px-3 py-2 border rounded-lg">
             </div>
           </div>
   
@@ -80,15 +80,20 @@
   
             <div class="mb-4">
               <label class="block text-gray-500 mb-1">Account Type</label>
-              <p>Vehicle Owner</p>
+              <p *ngIf="!isEditMode">{{ accountType }}</p>
+              <select *ngIf="isEditMode" [(ngModel)]="accountType" class="w-full px-3 py-2 border rounded-lg">
+                <option>Vehicle Owner</option>
+                <option>Mechanic</option>
+                <option>Admin</option>
+              </select>
             </div>
   
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <label class="block text-gray-500 mb-1">Member Since</label>
               <p>2 May 2025</p>
-            </div>
+            </div> -->
   
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <label class="block text-gray-500 mb-1">Notification Preferences</label>
               <p *ngIf="!isEditMode">Email Alerts</p>
               <select *ngIf="isEditMode" class="w-full px-3 py-2 border rounded-lg">
@@ -97,7 +102,7 @@
                 <option selected>Email & SMS</option>
                 <option>None</option>
               </select>
-            </div>
+            </div> -->
   
             <div class="mb-4">
               <button class="text-red-500 hover:underline text-sm">

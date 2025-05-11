@@ -20,18 +20,37 @@ import { AuthService } from '../../services/auth.service';
 export class ProfileComponent implements OnInit {
   isEditMode = false;
 
-  // Define user properties
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
+  firstName = '';
+  lastName = '';
+  email = '';
+  phone = '';
+  accountType = 'Vehicle Owner';
+  memberSince = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+
+  originalEmail = ''; // Add this line
 
   ngOnInit() {
-    this.firstName = localStorage.getItem('userFirstName') || '';
-    this.lastName = localStorage.getItem('userLastName') || '';
-    this.email = localStorage.getItem('userEmail') || '';
+    const email = localStorage.getItem('userEmail');
+    if (email) {
+      this.authService.getUserByEmail(email).subscribe(user => {
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.phone = user.phone;
+        this.accountType = user.accountType;
+        this.memberSince = new Date(user.createdAt).toLocaleDateString();
+  
+        // Update sidebar name
+        localStorage.setItem('userFirstName', this.firstName);
+        localStorage.setItem('userLastName', this.lastName);
+      });
+    }
   }
+  
+  
+
 
   logout() {
     localStorage.clear();
@@ -47,7 +66,30 @@ export class ProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    alert('Profile changes saved successfully!');
-    this.isEditMode = false;
+    const email = localStorage.getItem('userEmail');
+    const updatedData = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phone: this.phone,
+      accountType: this.accountType
+    };
+  
+    if (email) {
+      this.authService.updateUserByEmail(email, updatedData).subscribe({
+        next: () => {
+          alert('Profile updated');
+          this.isEditMode = false;
+          this.ngOnInit(); // reload updated data
+        },
+        error: err => {
+          console.error(err);
+          alert('Update failed.');
+        }
+      });
+    }
   }
+  
+  
+  
+  
 }
