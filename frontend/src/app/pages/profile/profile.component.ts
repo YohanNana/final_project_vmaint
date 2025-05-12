@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,16 @@ import { AuthService } from '../../services/auth.service';
             NavbarComponent, 
             CommonModule, 
             RouterModule, 
-            FormsModule
+            FormsModule,
+            VehicleCardComponent // 👈 Import VehicleCardComponent
           ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  vehicles: any[] = [];
+
   isEditMode = false;
 
   firstName = '';
@@ -26,6 +31,8 @@ export class ProfileComponent implements OnInit {
   phone = '';
   accountType = 'Vehicle Owner';
   memberSince = '';
+
+  // vehicles: any[] = [];
 
   constructor(private router: Router, private authService: AuthService) {}
 
@@ -41,13 +48,22 @@ export class ProfileComponent implements OnInit {
         this.phone = user.phone;
         this.accountType = user.accountType;
         this.memberSince = new Date(user.createdAt).toLocaleDateString();
+
+        this.vehicles = user.vehicles || []; // 👈 Add this line
   
         // Update sidebar name
         localStorage.setItem('userFirstName', this.firstName);
         localStorage.setItem('userLastName', this.lastName);
       });
+  
+      // 👉 Fetch vehicles
+      fetch(`http://localhost:5000/api/vehicles/owner/${email}`)
+        .then(res => res.json())
+        .then(data => this.vehicles = data)
+        .catch(err => console.error('Error fetching vehicles:', err));
     }
   }
+  
   
   
 
