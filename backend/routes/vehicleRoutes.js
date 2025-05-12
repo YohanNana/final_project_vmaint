@@ -1,13 +1,18 @@
 import express from 'express';
+import {
+  getVehicles,
+  getVehicleById,
+  createVehicle,
+  updateVehicle,
+  deleteVehicle
+} from '../controllers/vehicleController.js';
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json([
-    { id: 1, model: 'Toyota Prius' }, 
-    { id: 2, model: 'Honda Civic' }, 
-    { id: 3, model: 'Ford Focus' }, 
-    { id: 4, model: 'Chevrolet Bolt' }
-]);
-});
+router.get('/', getVehicles);
+router.get('/:id', getVehicleById);
+router.post('/', createVehicle);
+router.put('/:id', updateVehicle);
+router.delete('/:id', deleteVehicle);
 
 export default router;

@@ -3,7 +3,7 @@
 <!-- Main Layout -->
 <div class="flex">
     <!-- Sidebar: Show or hide based on sidebarOpen -->
-    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block" ></app-sidebar>
 
     <!-- Main Content -->
     <main class="flex-1 p-8">
@@ -48,7 +48,14 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Vehicle Card 1 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+
+                <!-- <h2 class="text-xl font-bold mb-4">My Vehicles</h2> -->
+                <div *ngIf="vehicles.length === 0">No vehicles registered.</div>
+                <app-vehicle-card *ngFor="let vehicle of vehicles" [vehicle]="vehicle"></app-vehicle-card>
+
+
+
+                <!-- <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
@@ -74,10 +81,10 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Vehicle Card 2 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <!-- <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
@@ -103,9 +110,9 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- Vehicle Card 3 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <!-- <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
@@ -131,7 +138,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

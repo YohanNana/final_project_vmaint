@@ -27,12 +27,18 @@ export class LoginComponent {
       email: this.email,
       password: this.password
     };
-
+  
     this.authService.login(credentials.email, credentials.password).subscribe({
       next: res => {
         localStorage.setItem('token', res.token);
+        localStorage.setItem('userFirstName', res.firstName);
+        localStorage.setItem('userLastName', res.lastName);
+        localStorage.setItem('userEmail', res.email);
+        // localStorage.setItem('userPhone', res.phone);
+        // localStorage.setItem('userAccountType', res.accountType);
+        // localStorage.setItem('userCreatedAt', res.createdAt); // or memberSince
         this.message = 'Login successful!';
-        this.router.navigate(['/dashboard']); // change to your desired route
+        this.router.navigate(['/dashboard']);
       },
       error: err => {
         this.message = err.error.msg || 'Login failed.';

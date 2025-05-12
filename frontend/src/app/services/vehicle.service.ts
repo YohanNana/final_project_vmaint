@@ -10,7 +10,13 @@ export class VehicleService {
 
   constructor(private http: HttpClient) {}
 
+  getVehicleById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+  
+  
+
   getVehicles(): Observable<any> {
-    return this.http.get(this.apiUrl);
+    return this.http.get<any>(this.apiUrl);
   }
 }

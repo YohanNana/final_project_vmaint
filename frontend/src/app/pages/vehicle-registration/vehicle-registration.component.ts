@@ -37,10 +37,38 @@ export class VehicleRegistrationComponent {
   };
 
   submitForm() {
-    // In real app: send vehicle data to backend
-    console.log('Vehicle registered:', this.vehicle);
-    alert('Vehicle registered successfully!');
+    const email = localStorage.getItem('userEmail');
+    if (!email) {
+      alert("You must be logged in.");
+      return;
+    }
+  
+    const vehicleData = {
+      ...this.vehicle,
+      ownerEmail: email
+    };
+  
+    fetch('http://localhost:5000/api/vehicles/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(vehicleData)
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to register vehicle');
+      return response.json();
+    })
+    .then(data => {
+      alert('Vehicle registered successfully!');
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error registering vehicle.');
+    });
   }
+  
 
   logout() {
     localStorage.removeItem('authToken');

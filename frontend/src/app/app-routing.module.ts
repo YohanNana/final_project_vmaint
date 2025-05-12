@@ -31,6 +31,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent }, // Add the route for LoginComponent
   { path: 'register', component: RegisterComponent }, // Add the route for RegisterComponent
   { path: 'vehicle', component: VehicleComponent }, // Add the route for VehicleComponent
+  {
+    path: 'vehicle-details/:id',
+    loadComponent: () => import('./pages/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
+  }, // Add the route for VehicleDetailsComponent with ID parameter
   // add more routes here
 ];
 
