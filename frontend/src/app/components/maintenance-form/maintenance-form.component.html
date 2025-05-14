@@ -1,0 +1,53 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 class="text-xl font-bold mb-4">Add Maintenance</h2>
+
+    <form (ngSubmit)="submit()">
+      <!-- Vehicle -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Vehicle</label>
+        <select [(ngModel)]="formData.vehicleId" name="vehicleId" class="w-full border rounded px-3 py-2">
+          <option *ngFor="let v of vehicles" [value]="v._id">{{ v.make }} {{ v.model }} ({{ v.plate }})</option>
+        </select>
+      </div>
+
+      <!-- Service Type -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Service Type</label>
+        <input type="text" [(ngModel)]="formData.serviceType" name="serviceType" class="w-full border rounded px-3 py-2" required />
+      </div>
+
+      <!-- Date -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Service Date</label>
+        <input type="date" [(ngModel)]="formData.serviceDate" name="serviceDate" class="w-full border rounded px-3 py-2" required />
+      </div>
+
+      <!-- Mileage -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Mileage</label>
+        <input type="number" [(ngModel)]="formData.mileage" name="mileage" class="w-full border rounded px-3 py-2" />
+      </div>
+
+      <!-- Cost -->
+      <div class="mb-4">
+        <label class="block text-gray-700">Cost</label>
+        <input type="number" [(ngModel)]="formData.cost" name="cost" class="w-full border rounded px-3 py-2" />
+      </div>
+
+      <div class="flex justify-end space-x-2 mt-6">
+        <button type="button" (click)="closeModal()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Cancel</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- <app-maintenance-form 
+  *ngIf="showModal" 
+  [vehicleOptions]="vehicles" 
+  (save)="handleSave($event)" 
+  (cancel)="showModal = false">
+</app-maintenance-form> -->

@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js'; // User routes
 import vehicleRoutes from './routes/vehicleRoutes.js';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
+import maintenanceRoutes from './routes/maintenanceRoutes.js';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use('/api/users', userRoutes);
 app.use('/api/vehicles', vehicleRoutes); // Vehicle routes
 app.use('/api/auth', authRoutes); // Authentication routes
-
+app.use('/api/maintenance', maintenanceRoutes); // Maintenance routes
 
 // Example route
 app.get('/', (req, res) => {

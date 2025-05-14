@@ -56,96 +56,108 @@
       <div class="space-y-4">
   
         <!-- Overdue Maintenance -->
-        <div>
+        <!-- OVERDUE -->
+        <div *ngIf="overdue.length > 0">
           <h2 class="text-xl font-bold mb-3 text-red-600">
             <i class="fas fa-exclamation-circle mr-2"></i> Overdue Maintenance
           </h2>
-          <div class="bg-white border-l-4 border-red-500 p-4 rounded shadow">
+          <div *ngFor="let m of overdue" class="bg-white border-l-4 border-red-500 p-4 rounded shadow mb-4">
             <div class="flex justify-between items-start">
               <div>
-                <h3 class="font-semibold">Oil Change</h3>
-                <p class="text-sm text-gray-600">Toyota Camry (CAA-5543)</p>
-                <p class="text-sm text-gray-600">Due: 2 May 2025</p>
-              </div>
-              <div class="flex space-x-2">
-                <button class="bg-red-100 text-red-800 px-3 py-1 rounded text-sm hover:bg-red-200">
-                  <i class="fas fa-check mr-1"></i> Mark Complete
-                </button>
-                <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
-                  <i class="fas fa-edit mr-1"></i> Edit
-                </button>
+                <h3 class="font-semibold">{{ m.serviceType }}</h3>
+                <p class="text-sm text-gray-600">{{ getVehicleDisplay(m.vehicleId) }}</p>
+                <p class="text-sm text-gray-600">Due: {{ m.serviceDate | date }}</p>
               </div>
             </div>
           </div>
         </div>
-  
-        <!-- Upcoming Maintenance -->
-        <div>
+
+        <!-- UPCOMING -->
+        <div *ngIf="upcoming.length > 0">
           <h2 class="text-xl font-bold mb-3 text-yellow-600">
             <i class="fas fa-clock mr-2"></i> Upcoming Maintenance
           </h2>
-          <div class="space-y-3">
-            <div class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h3 class="font-semibold">Tire Rotation</h3>
-                  <p class="text-sm text-gray-600">Toyota Vitz (CAV-4563)</p>
-                  <p class="text-sm text-gray-600">Due: 25 Jun 2025</p>
-                </div>
-                <div class="flex space-x-2">
-                  <button class="bg-green-100 text-green-800 px-3 py-1 rounded text-sm hover:bg-green-200">
-                    <i class="fas fa-check mr-1"></i> Mark Complete
-                  </button>
-                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
-                    <i class="fas fa-edit mr-1"></i> Edit
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h3 class="font-semibold">Brake Inspection</h3>
-                  <p class="text-sm text-gray-600">Toyota Camry (CAA-5543)</p>
-                  <p class="text-sm text-gray-600">Due: 5 Jun 2025</p>
-                </div>
-                <div class="flex space-x-2">
-                  <button class="bg-green-100 text-green-800 px-3 py-1 rounded text-sm hover:bg-green-200">
-                    <i class="fas fa-check mr-1"></i> Mark Complete
-                  </button>
-                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
-                    <i class="fas fa-edit mr-1"></i> Edit
-                  </button>
-                </div>
+          <div *ngFor="let m of upcoming" class="bg-white border-l-4 border-yellow-500 p-4 rounded shadow mb-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold">{{ m.serviceType }}</h3>
+                <p class="text-sm text-gray-600">{{ getVehicleDisplay(m.vehicleId) }}</p>
+                <p class="text-sm text-gray-600">Due: {{ m.serviceDate | date }}</p>
               </div>
             </div>
           </div>
         </div>
-  
-        <!-- Future Maintenance -->
-        <div>
+
+        <!-- FUTURE -->
+        <div *ngIf="future.length > 0">
           <h2 class="text-xl font-bold mb-3 text-blue-600">
             <i class="fas fa-calendar-alt mr-2"></i> Future Maintenance
           </h2>
-          <div class="space-y-3">
-            <div class="bg-white border-l-4 border-blue-500 p-4 rounded shadow">
-              <div class="flex justify-between items-start">
-                <div>
-                  <h3 class="font-semibold">Air Filter Replacement</h3>
-                  <p class="text-sm text-gray-600">Toyota Camry (ABC-1234)</p>
-                  <p class="text-sm text-gray-600">Due: Approx. 15 Dec 2023</p>
-                </div>
-                <div class="flex space-x-2">
-                  <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-200">
-                    <i class="fas fa-edit mr-1"></i> Edit
-                  </button>
-                </div>
+          <div *ngFor="let m of future" class="bg-white border-l-4 border-blue-500 p-4 rounded shadow mb-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="font-semibold">{{ m.serviceType }}</h3>
+                <p class="text-sm text-gray-600">{{ getVehicleDisplay(m.vehicleId) }}</p>
+                <p class="text-sm text-gray-600">Due: {{ m.serviceDate | date }}</p>
               </div>
             </div>
           </div>
         </div>
-  
       </div>
+      
+
+      
     </main>
   </div>
+
+  <!-- Add Maintenance Modal -->
+<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-xl font-bold mb-4">Add Maintenance</h2>
+    
+    <form (ngSubmit)="submitMaintenance()" #maintenanceForm="ngForm">
+      <div class="mb-4">
+        <label class="block text-sm mb-1">Vehicle</label>
+        <select [(ngModel)]="newMaintenance.vehicleId" name="vehicleId" required class="w-full border px-3 py-2 rounded">
+          <option *ngFor="let vehicle of vehicles" [value]="vehicle._id">
+            {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.plate }})
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm mb-1">Service Type</label>
+        <input [(ngModel)]="newMaintenance.serviceType" name="serviceType" required class="w-full border px-3 py-2 rounded">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm mb-1">Service Date</label>
+        <input [(ngModel)]="newMaintenance.serviceDate" name="serviceDate" type="date" required class="w-full border px-3 py-2 rounded">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm mb-1">Mileage</label>
+        <input [(ngModel)]="newMaintenance.mileage" name="mileage" type="number" required class="w-full border px-3 py-2 rounded">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm mb-1">Cost</label>
+        <input [(ngModel)]="newMaintenance.cost" name="cost" type="number" required class="w-full border px-3 py-2 rounded">
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" (click)="closeModal()" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add</button>
+      </div>
+      <app-maintenance-form 
+        *ngIf="showModal" 
+        [vehicles]="vehicles" 
+        [formData]="newMaintenance"
+        (close)="closeModal()" 
+        (save)="submitMaintenance()">
+      </app-maintenance-form>
+    </form>
+  </div>
+</div>
+
   
