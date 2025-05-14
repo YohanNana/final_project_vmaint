@@ -33,8 +33,10 @@ export class AuthService {
   
   
   updateUserByEmail(email: string, updatedData: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/user/${email}`, updatedData);
+    return this.http.put(`http://localhost:5000/api/users/user/${email}`, updatedData);
   }
+  
+  
 
   // login(credentials: any): Observable<any> {
   //   return this.http.post(`${this.baseUrl}/login`, credentials);

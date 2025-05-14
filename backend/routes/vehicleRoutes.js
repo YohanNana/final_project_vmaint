@@ -1,18 +1,17 @@
+// routes/vehicleRoutes.js
 import express from 'express';
 import {
-  getVehicles,
-  getVehicleById,
   createVehicle,
-  updateVehicle,
-  deleteVehicle
+  getAllVehicles,
+  getVehicleById,
+  getVehiclesByOwnerEmail
 } from '../controllers/vehicleController.js';
 
 const router = express.Router();
 
-router.get('/', getVehicles);
-router.get('/:id', getVehicleById);
 router.post('/', createVehicle);
-router.put('/:id', updateVehicle);
-router.delete('/:id', deleteVehicle);
+router.get('/', getAllVehicles);
+router.get('/:id', getVehicleById); // should NOT be `/vehicles/:id`
+router.get('/owner/:email', getVehiclesByOwnerEmail);
 
 export default router;

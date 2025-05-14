@@ -1,29 +1,21 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const vehicleSchema = new mongoose.Schema({
   make: String,
   model: String,
   year: Number,
-  licensePlate: String,
+  plate: String,
   vin: String,
-  status: String,
-  ownerEmail: { type: String, required: true }, // ✅ Ensure this is present
-  maintenanceSummary: {
-    currentMileage: Number,
-    lastOilChange: Number,
-    nextOilChangeIn: Number,
-    lastTireRotation: Number,
-    nextTireRotationIn: Number,
-  },
-  recentMaintenance: [
-    {
-      date: String,
-      serviceType: String,
-      mileage: Number,
-      cost: Number,
-      notes: String
-    }
-  ]
+  color: String,
+  engine: String,
+  transmission: String,
+  mileage: Number,
+  purchaseDate: Date,
+  lastServiceDate: Date,
+  lastServiceType: String,
+  nextServiceDue: Date,
+  ownerEmail: { type: String, required: true }, // ✅ Important for owner linkage
+  createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Vehicle', vehicleSchema);
+export default mongoose.model('Vehicle', vehicleSchema);

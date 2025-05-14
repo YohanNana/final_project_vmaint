@@ -31,12 +31,13 @@ export class LoginComponent {
     this.authService.login(credentials.email, credentials.password).subscribe({
       next: res => {
         localStorage.setItem('token', res.token);
-        localStorage.setItem('userFirstName', res.firstName);
-        localStorage.setItem('userLastName', res.lastName);
-        localStorage.setItem('userEmail', res.email);
-        // localStorage.setItem('userPhone', res.phone);
-        // localStorage.setItem('userAccountType', res.accountType);
-        // localStorage.setItem('userCreatedAt', res.createdAt); // or memberSince
+        localStorage.setItem('userFirstName', res.user.firstName);
+        localStorage.setItem('userLastName', res.user.lastName);
+        localStorage.setItem('userEmail', res.user.email); // ✅ fix
+        localStorage.setItem('userPhone', res.user.phone || '');
+        localStorage.setItem('userAccountType', res.user.accountType);
+        localStorage.setItem('userCreatedAt', res.user.createdAt);
+
         this.message = 'Login successful!';
         this.router.navigate(['/dashboard']);
       },
@@ -44,5 +45,6 @@ export class LoginComponent {
         this.message = err.error.msg || 'Login failed.';
       }
     });
+    
   }
 }

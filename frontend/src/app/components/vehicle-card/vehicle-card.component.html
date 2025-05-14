@@ -3,7 +3,7 @@
       <div class="flex justify-between items-start mb-4">
         <div>
           <h3 class="font-bold text-lg">{{ vehicle.make }} {{ vehicle.model }}</h3>
-          <p class="text-gray-500">{{ vehicle.licensePlate }}</p>
+          <p class="text-gray-500">{{ vehicle.plate }}</p>
         </div>
         <!-- <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
           {{ vehicle.status || 'Active' }}
@@ -12,8 +12,8 @@
   
       <div class="flex items-center space-x-4 mb-4">
         <div>
-          <p class="text-gray-500 text-sm">Last Service</p>
-          <p>{{ vehicle.lastService || 'N/A' }}</p>
+          <p class="text-gray-500 text-sm">Last Service Date</p>
+          <p>{{ vehicle.lastServiceDate || 'N/A' }}</p>
         </div>
         <div>
           <p class="text-gray-500 text-sm">Mileage</p>

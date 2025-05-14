@@ -25,4 +25,11 @@ export class VehicleCardComponent {
     // TODO: Implement deletion logic
     alert(`Delete ${this.vehicle.licensePlate}`);
   }
+
+  // const email = localStorage.getItem('userEmail');
+  // if (email) {
+  //   this.vehicleService.getVehiclesByOwner(email).subscribe(...);
+  // }
+  
+
 }

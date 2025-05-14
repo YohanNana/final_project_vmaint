@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
+import { VehicleService } from '../../services/vehicle.service'; // 👈 Import VehicleService
 
 @Component({
   selector: 'app-profile',
@@ -34,40 +35,35 @@ export class ProfileComponent implements OnInit {
 
   // vehicles: any[] = [];
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private vehicleService: VehicleService ) {}
 
   originalEmail = ''; // Add this line
 
-  ngOnInit() {
+  ngOnInit(): void {
     const email = localStorage.getItem('userEmail');
-    if (email) {
-      this.authService.getUserByEmail(email).subscribe(user => {
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
-        this.phone = user.phone;
-        this.accountType = user.accountType;
-        this.memberSince = new Date(user.createdAt).toLocaleDateString();
-
-        this.vehicles = user.vehicles || []; // 👈 Add this line
-  
-        // Update sidebar name
-        localStorage.setItem('userFirstName', this.firstName);
-        localStorage.setItem('userLastName', this.lastName);
-      });
-  
-      // 👉 Fetch vehicles
-      fetch(`http://localhost:5000/api/vehicles/owner/${email}`)
-        .then(res => res.json())
-        .then(data => this.vehicles = data)
-        .catch(err => console.error('Error fetching vehicles:', err));
+    if (!email) {
+      this.router.navigate(['/login']);
+      return;
     }
+  
+    // Load user info from local storage
+    this.firstName = localStorage.getItem('userFirstName') || '';
+    this.lastName = localStorage.getItem('userLastName') || '';
+    this.email = email;
+    this.phone = localStorage.getItem('userPhone') || '';
+    this.accountType = localStorage.getItem('userAccountType') || '';
+    this.memberSince = localStorage.getItem('userCreatedAt') || '';
+  
+    // Load user's vehicles
+    this.vehicleService.getVehiclesByOwner(email).subscribe({
+      next: data => this.vehicles = data,
+      error: err => console.error('Error loading vehicles:', err)
+    });
   }
   
+
   
   
-
-
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
@@ -89,6 +85,12 @@ export class ProfileComponent implements OnInit {
       phone: this.phone,
       accountType: this.accountType
     };
+
+    localStorage.setItem('userFirstName', this.firstName);
+  localStorage.setItem('userLastName', this.lastName);
+  localStorage.setItem('userPhone', this.phone);
+  localStorage.setItem('userAccountType', this.accountType);
+
   
     if (email) {
       this.authService.updateUserByEmail(email, updatedData).subscribe({

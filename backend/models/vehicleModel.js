@@ -1,31 +1,23 @@
 import mongoose from 'mongoose';
 
 const vehicleSchema = new mongoose.Schema({
-  make: { type: String, required: true },
-  model: { type: String, required: true },
-  year: { type: Number, required: true },
-  licensePlate: { type: String, required: true },
-  vin: { type: String, required: true },
-  status: { type: String, default: 'active' },
-  ownerEmail: { type: String, required: true },
-  maintenanceSummary: {
-    currentMileage: Number,
-    lastOilChange: Number,
-    nextOilChangeIn: Number,
-    lastTireRotation: Number,
-    nextTireRotationIn: Number
-  },
-  recentMaintenance: [
-    {
-      date: String,
-      serviceType: String,
-      mileage: Number,
-      cost: Number,
-      notes: String
-    }
-  ]
-}, {
-  timestamps: true
+  make: String,
+  model: String,
+  year: Number,
+  plate: String,
+  vin: String,
+  color: String,
+  engine: String,
+  transmission: String,
+  mileage: Number,
+  purchaseDate: Date,
+  lastServiceDate: Date,
+  lastServiceType: String,
+  nextServiceDue: Date,
+  ownerEmail: {
+    type: String,
+    required: true
+  }
 });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);

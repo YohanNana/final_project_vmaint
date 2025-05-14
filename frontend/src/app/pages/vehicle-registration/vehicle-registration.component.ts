@@ -33,8 +33,11 @@ export class VehicleRegistrationComponent {
     purchaseDate: '',
     lastServiceDate: '',
     lastServiceType: '',
-    nextServiceDue: ''
+    nextServiceDue: '',
+    ownerEmail: ''
   };
+
+  
 
   submitForm() {
     const email = localStorage.getItem('userEmail');
@@ -48,7 +51,9 @@ export class VehicleRegistrationComponent {
       ownerEmail: email
     };
   
-    fetch('http://localhost:5000/api/vehicles/register', {
+    console.log('Submitting vehicle data:', vehicleData);
+
+    fetch('http://localhost:5000/api/vehicles', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,10 +69,15 @@ export class VehicleRegistrationComponent {
       console.log(data);
     })
     .catch(error => {
-      console.error('Error:', error);
-      alert('Error registering vehicle.');
+      if (error.error?.error?.includes('duplicate key')) {
+        alert('Plate number or VIN already exists. Please use unique values.');
+      } else {
+        alert('Error registering vehicle.');
+      }
     });
+    
   }
+  
   
 
   logout() {

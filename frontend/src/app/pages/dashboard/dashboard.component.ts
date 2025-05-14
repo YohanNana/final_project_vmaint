@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component'; // 👈 Import Navbar
 import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import Sidebar
-import { RouterModule } from '@angular/router'; // 👈 Needed for routerLink to work
+import { RouterModule, Router } from '@angular/router'; // 👈 Needed for routerLink to work
 import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
+import { VehicleService } from '../../services/vehicle.service'; // 👈 Import VehicleService
+
 
 @Component({
   selector: 'app-dashboard',
@@ -22,14 +24,19 @@ export class DashboardComponent implements OnInit {
 
   vehicles: any[] = [];
 
-  ngOnInit() {
-    const email = localStorage.getItem('userEmail');
-    if (!email) return;
+  constructor(private vehicleService: VehicleService, private router: Router) {}
 
-    fetch(`http://localhost:5000/api/vehicles/owner/${email}`)
-      .then(res => res.json())
-      .then(data => this.vehicles = data)
-      .catch(err => console.error('Error loading vehicles:', err));
+  ngOnInit(): void {
+    const email = localStorage.getItem('userEmail');
+    if (!email) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.vehicleService.getVehiclesByOwner(email).subscribe({
+      next: data => this.vehicles = data,
+      error: err => console.error('Error loading vehicles:', err)
+    });
   }
 
   toggleMobileMenu() {

@@ -13,7 +13,7 @@ const app = express();
 connectDB(); // Connect to MongoDB
 
 // Middlewares
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 

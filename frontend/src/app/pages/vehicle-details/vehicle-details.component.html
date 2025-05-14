@@ -44,11 +44,11 @@
       <div class="bg-white p-6 rounded-lg shadow">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Vehicle Image -->
-          <div class="md:col-span-1">
+          <!-- <div class="md:col-span-1">
             <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
               <i class="fas fa-car text-6xl text-gray-400"></i>
             </div>
-          </div>
+          </div> -->
 
           <!-- Vehicle Info -->
           <div class="md:col-span-2">
@@ -67,16 +67,16 @@
               </div>
               <div>
                 <h3 class="text-gray-500">License Plate</h3>
-                <p class="font-semibold">{{ vehicle.licensePlate }}</p>
+                <p class="font-semibold">{{ vehicle.plate }}</p>
               </div>
               <div>
-                <h3 class="text-gray-500">VIN</h3>
+                <h3 class="text-gray-500">Chassis Number</h3>
                 <p class="font-semibold">{{ vehicle.vin }}</p>
               </div>
-              <div>
+              <!-- <div>
                 <h3 class="text-gray-500">Status</h3>
                 <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">{{ vehicle.status }}</span>
-              </div>
+              </div> -->
               <div>
                 <h3 class="text-gray-500">Owner Email</h3>
                 <p class="font-semibold">{{ vehicle.ownerEmail }}</p>
