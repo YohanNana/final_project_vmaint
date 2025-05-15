@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import AppSidebarComponent
 
 
 @Component({
@@ -10,7 +11,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
   standalone: true,
   imports: [
     NavbarComponent,
-    RouterLink  // Assuming you have a NavbarComponent for the navigation bar
+    RouterLink,  // Assuming you have a NavbarComponent for the navigation bar
+    SidebarComponent, // 👈 Import AppSidebarComponent
     // Add any other necessary imports here
   ],
   templateUrl: './prediction-page.component.html',

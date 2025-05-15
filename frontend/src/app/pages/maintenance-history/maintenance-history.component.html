@@ -5,22 +5,7 @@
     <!-- Main Content with Sidebar -->
     <div class="flex">
       <!-- Sidebar -->
-      <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
-        <div class="space-y-4">
-          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-            <a routerLink="/dashboard" class="flex items-center">
-              <i class="fas fa-tachometer-alt mr-2"></i>
-              <span>Dashboard</span>
-            </a>
-          </div>
-          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-            <a routerLink="/maintenance-history" class="flex items-center">
-              <i class="fas fa-history mr-2"></i>
-              <span>History</span>
-            </a>
-          </div>
-        </div>
-      </aside>
+      <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
   
       <!-- Maintenance History Content -->
       <main class="flex-1 p-6">
@@ -32,7 +17,7 @@
         </div>
   
         <!-- Filter Controls -->
-        <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <!-- <div class="bg-white p-4 rounded-lg shadow mb-6">
           <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
             <div class="flex-1">
               <label class="block text-gray-700 mb-1">Vehicle</label>
@@ -65,7 +50,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
   
         <!-- History Records Table -->
         <div class="bg-white p-4 rounded-lg shadow">
@@ -84,13 +69,15 @@
 
               <tbody>
                 <tr *ngFor="let record of maintenanceRecords" class="border-b hover:bg-gray-50">
-                  <td class="py-3">{{ record.date | date: 'mediumDate' }}</td>
-                  <td class="py-3">{{ record.vehicleMake }} ({{ record.plate }})</td>
+                  <td class="py-3">{{ record.serviceDate | date: 'mediumDate' }}</td>
+                  <td class="py-3">
+                        {{ record.vehicleId?.make }} {{ record.vehicleId?.model }} ({{ record.vehicleId?.plate }})
+                  </td>
                   <td class="py-3">
                     <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">{{ record.serviceType }}</span>
                   </td>
                   <td class="py-3">{{ record.mileage }} km</td>
-                  <td class="py-3">${{ record.cost }}</td>
+                  <td class="py-3">Rs.{{ record.cost }}</td>
                   <td class="py-3">
                     <button (click)="viewRecord(record._id)" class="text-blue-500 hover:underline mr-2"><i class="fas fa-eye"></i></button>
                     <button (click)="editRecord(record._id)" class="text-gray-500 hover:text-gray-700 mr-2"><i class="fas fa-edit"></i></button>

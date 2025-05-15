@@ -1,0 +1,9 @@
+.active-link {
+  background-color: #e0f2fe; /* light blue */
+  color: #2563eb; /* blue-600 */
+  font-weight: 600;
+}
+
+.active-link i {
+  color: #2563eb;
+}

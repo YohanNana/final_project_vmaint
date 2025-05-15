@@ -1,13 +1,11 @@
 // maintenance-tracker.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NavbarComponent } from '../../components/navbar/navbar.component'; // 👈 Import Navbar
-import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import Sidebar
-import { RouterModule } from '@angular/router'; // 👈 Needed for routerLink to work
 import { MaintenanceService } from '../../services/maintenance.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { VehicleService } from '../../services/vehicle.service';
+import { VehicleService }     from '../../services/vehicle.service';   // ← inject VehicleService
+import { Router }             from '@angular/router';
+import { NavbarComponent }    from '../../components/navbar/navbar.component';
+import { SidebarComponent }   from '../../components/sidebar/sidebar.component';
+import { CommonModule }       from '@angular/common';
 import { MaintenanceFormComponent } from '../../components/maintenance-form/maintenance-form.component';
 
 @Component({
@@ -16,105 +14,109 @@ import { MaintenanceFormComponent } from '../../components/maintenance-form/main
   imports: [
     NavbarComponent,
     SidebarComponent,
-    RouterModule,
     CommonModule,
-    FormsModule,
     MaintenanceFormComponent
-  ],// Add any necessary imports here
+  ],
   templateUrl: './maintenance-tracker.component.html',
-  styleUrls: ['./maintenance-tracker.component.css'],
+  styleUrls: ['./maintenance-tracker.component.css']
 })
-
 export class MaintenanceTrackerComponent implements OnInit {
-  showModal = false;
   vehicles: any[] = [];
-  maintenanceRecords: any[] = [];
-  overdue: any[] = [];
-  upcoming: any[] = [];
-  future: any[] = [];
+  records: any[]  = [];
 
-  newMaintenance: any = {
-    vehicleId: '',
-    serviceType: '',
-    serviceDate: '',
-    mileage: '',
-    cost: 0
-  };
+  overdue: any[]  = [];
+  upcoming: any[]= [];
+  future: any[]   = [];
+
+  formVisible = false;
+  formData: any  = {};
 
   constructor(
-    private maintenanceService: MaintenanceService,
-    private vehicleService: VehicleService
+    private ms: MaintenanceService,
+    private vs: VehicleService,      // ← add this
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     const email = localStorage.getItem('userEmail');
-    if (!email) return;
+    if (!email) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    this.vehicleService.getVehiclesByOwner(email).subscribe({
-      next: vehicles => {
-        this.vehicles = vehicles;
-        this.loadMaintenance(email);
+    // 1) Load current user's vehicles
+    this.vs.getVehiclesByOwner(email).subscribe({
+      next: v => this.vehicles = v,
+      error: e => console.error('Failed to load vehicles', e)
+    });
+
+    // 2) Load maintenance records
+    this.ms.getMaintenanceByUser(email).subscribe({
+      next: recs => {
+        this.records = recs;
+        this.categorizeRecords(recs);
       },
-      error: err => console.error('Failed to load vehicles', err)
+      error: err => console.error('Failed to load maintenance records', err)
     });
   }
 
-  loadMaintenance(email: string) {
-    this.maintenanceService.getMaintenanceByUser(email).subscribe({
-      next: (data) => {
-        this.maintenanceRecords = data;
-        this.categorizeRecords();
-      },
-      error: (err) => console.error('Failed to load maintenance records', err)
-    });
+  private addDays(d: Date, n: number) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
   }
 
-  categorizeRecords() {
+  private categorizeRecords(recs: any[]) {
     const today = new Date();
-
-    this.overdue = [];
-    this.upcoming = [];
-    this.future = [];
-
-    this.maintenanceRecords.forEach(record => {
-      const dueDate = new Date(record.serviceDate);
-      const daysUntilDue = (dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
-
-      if (daysUntilDue < 0) {
-        this.overdue.push(record);
-      } else if (daysUntilDue <= 30) {
-        this.upcoming.push(record);
-      } else {
-        this.future.push(record);
-      }
+    this.overdue  = recs.filter(r => new Date(r.serviceDate) < today);
+    this.upcoming = recs.filter(r => {
+      const due = new Date(r.serviceDate);
+      return due >= today && due <= this.addDays(today, 30);
     });
+    this.future   = recs.filter(r => new Date(r.serviceDate) > this.addDays(today, 30));
   }
 
-  getVehicleDisplay(vehicleId: string) {
-    const vehicle = this.vehicles.find(v => v._id === vehicleId);
-    return vehicle ? `${vehicle.make} ${vehicle.model} (${vehicle.plate})` : 'Unknown Vehicle';
+  getVehicleDisplay(v: any) {
+    if (!v) return '';
+    return `${v.make} ${v.model} (${v.plate})`;
   }
 
   addMaintenance() {
-    this.showModal = true;
+    this.formData = {
+      vehicleId: null,
+      serviceType: '',
+      serviceDate: '',
+      mileage: null,
+      cost: null,
+      notes: ''
+    };
+    this.formVisible = true;
   }
 
-  closeModal() {
-    this.showModal = false;
-  }
+  onSave() {
+    const email = localStorage.getItem('userEmail');
+    if (!email) return alert('Not logged in');
 
-  submitMaintenance() {
-    this.maintenanceService.addMaintenance(this.newMaintenance).subscribe({
-      next: () => {
-        alert('Maintenance added');
-        this.closeModal();
-        const email = localStorage.getItem('userEmail');
-        if (email) this.loadMaintenance(email);
+    const payload = {
+      ...this.formData,
+      ownerEmail: email   // ← ensure ownerEmail is sent
+    };
+
+    this.ms.addMaintenance(payload).subscribe({
+      next: rec => {
+        this.records.unshift(rec);
+        this.categorizeRecords(this.records);
+        this.formVisible = false;
       },
       error: err => {
-        console.error(err);
+        console.error('Failed to add maintenance', err);
         alert('Failed to add maintenance');
       }
     });
   }
+
+  onCloseForm() {
+    this.formVisible = false;
+  }
 }
+// Note: The above code assumes that the backend API is set up to handle the new fields and that the VehicleService is correctly implemented.

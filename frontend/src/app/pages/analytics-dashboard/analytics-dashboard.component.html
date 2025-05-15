@@ -4,22 +4,7 @@
   <!-- Main Content with Sidebar -->
   <div class="flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
-      <div class="space-y-4">
-        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-          <a routerLink="/dashboard" class="flex items-center">
-            <i class="fas fa-tachometer-alt mr-2"></i>
-            <span>Dashboard</span>
-          </a>
-        </div>
-        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-          <a routerLink="/analytics" class="flex items-center">
-            <i class="fas fa-chart-pie mr-2"></i>
-            <span>Analytics</span>
-          </a>
-        </div>
-      </div>
-    </aside>
+    <app-sidebar  class="md:block" ></app-sidebar>
   
     <!-- Analytics Content -->
     <main class="flex-1 p-6">

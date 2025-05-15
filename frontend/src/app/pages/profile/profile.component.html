@@ -3,22 +3,7 @@
   <!-- Main Content with Sidebar -->
   <div class="flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
-      <div class="space-y-4">
-        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-          <a routerLink="/dashboard" class="flex items-center">
-            <i class="fas fa-tachometer-alt mr-2"></i>
-            <span>Dashboard</span>
-          </a>
-        </div>
-        <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-          <a routerLink="/profile" class="flex items-center">
-            <i class="fas fa-user mr-2"></i>
-            <span>Profile</span>
-          </a>
-        </div>
-      </div>
-    </aside>
+    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block" ></app-sidebar>
   
     <!-- Profile Content -->
     <main class="flex-1 p-6">
@@ -111,11 +96,13 @@
             </div> -->
           </div>
         </div>
-  
+        </div>
+        <div>
+          <br>
         <!-- My Vehicles Section -->
         <div>
           <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">My Vehicles</h2>
+            <h2 class="text-2xl font-bold">My Vehicles</h2>
             <a routerLink="/vehicle-registration" class="text-blue-500 hover:underline text-sm">
               <i class="fas fa-plus mr-1"></i> Add Vehicle
             </a>

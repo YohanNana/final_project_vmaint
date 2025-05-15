@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import AppSidebarComponent
 
 @Component({
   selector: 'app-reports',
@@ -8,6 +9,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
   imports: [
     CommonModule,
     NavbarComponent,
+    SidebarComponent, // 👈 Import AppSidebarComponent
     // Add any other modules you need here, e.g., FormsModule, ReactiveFormsModule, etc.
   ],
   templateUrl: './reports.component.html',

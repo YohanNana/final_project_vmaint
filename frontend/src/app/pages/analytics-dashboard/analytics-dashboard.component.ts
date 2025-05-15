@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import AppSidebarComponent
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -11,7 +12,8 @@ import { RouterLink } from '@angular/router';
   imports: [
     CommonModule,
     NavbarComponent,
-    RouterLink
+    RouterLink,
+    SidebarComponent // 👈 Import AppSidebarComponent
   ],
   templateUrl: './analytics-dashboard.component.html',
   styleUrls: ['./analytics-dashboard.component.css']

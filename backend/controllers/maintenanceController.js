@@ -1,31 +1,31 @@
+// controllers/maintenanceController.js
 import Maintenance from '../models/maintenanceModel.js';
 
-// export const addMaintenance = async (req, res) => {
-//   try {
-//     const newEntry = new Maintenance(req.body);
-//     await newEntry.save();
-//     res.status(201).json(newEntry);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to add maintenance record', error: error.message });
-//   }
-// };
-
+/**
+ * POST /api/maintenance
+ * Creates a new maintenance record.
+ */
 export const createMaintenanceRecord = async (req, res) => {
+  console.log('👉 Incoming maintenance payload:', req.body);
+
+  const {
+    vehicleId,
+    serviceType,
+    serviceDate,
+    mileage,
+    cost,
+    notes,
+    ownerEmail
+  } = req.body;
+
+  // Validate required
+  if (!vehicleId || !serviceType || !serviceDate || !ownerEmail) {
+    return res
+      .status(400)
+      .json({ message: 'Missing required fields: vehicleId, serviceType, serviceDate, ownerEmail' });
+  }
+
   try {
-    const {
-      vehicleId,
-      serviceType,
-      serviceDate,
-      mileage,
-      cost,
-      notes,
-      ownerEmail
-    } = req.body;
-
-    if (!vehicleId || !serviceType || !serviceDate || !ownerEmail) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
-
     const record = new Maintenance({
       vehicleId,
       serviceType,
@@ -35,12 +35,43 @@ export const createMaintenanceRecord = async (req, res) => {
       notes,
       ownerEmail
     });
-
     const saved = await record.save();
-    res.status(201).json(saved);
+    return res.status(201).json(saved);
   } catch (error) {
-    console.error('❌ Failed to create maintenance record:', error.message);
-    res.status(500).json({ message: 'Failed to create record', error: error.message });
+    console.error('❌ Failed to create maintenance record:', error);
+    return res.status(500).json({ message: 'Failed to create record', error: error.message });
+  }
+};
+
+/**
+ * GET /api/maintenance/user/:email
+ * Returns all maintenance records for a given user (by ownerEmail).
+ */
+export const getMaintenanceByUserEmail = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const records = await Maintenance.find({ ownerEmail: email })
+      .populate('vehicleId')
+      .sort({ serviceDate: -1 });
+    return res.status(200).json(records);
+  } catch (error) {
+    console.error('❌ Failed to fetch maintenance by user:', error);
+    return res.status(500).json({ message: 'Failed to fetch records', error: error.message });
+  }
+};
+
+/**
+ * GET /api/maintenance/vehicle/:vehicleId
+ * Returns all maintenance records for a single vehicle.
+ */
+export const getMaintenanceByVehicleId = async (req, res) => {
+  const { vehicleId } = req.params;
+  try {
+    const records = await Maintenance.find({ vehicleId }).sort({ serviceDate: -1 });
+    return res.status(200).json(records);
+  } catch (error) {
+    console.error('❌ Failed to fetch maintenance by vehicle:', error);
+    return res.status(500).json({ message: 'Failed to fetch records', error: error.message });
   }
 };
 
@@ -84,14 +115,3 @@ export const createMaintenanceRecord = async (req, res) => {
 //   }
 // };
 
-
-export const getMaintenanceByUserEmail = async (req, res) => {
-  try {
-    const email = req.params.email;
-    const records = await Maintenance.find({ ownerEmail: email }).populate('vehicleId');
-    res.status(200).json(records);
-  } catch (error) {
-    console.error('❌ Failed to get maintenance by user:', error.message);
-    res.status(500).json({ message: 'Failed to fetch records', error: error.message });
-  }
-};

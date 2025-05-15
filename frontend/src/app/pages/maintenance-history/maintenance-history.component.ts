@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { MaintenanceService } from '../../services/maintenance.service';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 
 @Component({
@@ -9,7 +10,8 @@ import { MaintenanceService } from '../../services/maintenance.service';
   standalone: true,
   imports: [
     NavbarComponent,
-    CommonModule
+    CommonModule,
+    SidebarComponent
   ],
   templateUrl: './maintenance-history.component.html',
   styleUrl: './maintenance-history.component.css'

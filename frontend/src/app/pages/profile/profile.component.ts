@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { VehicleCardComponent } from '../../components/vehicle-card/vehicle-card.component';
 import { VehicleService } from '../../services/vehicle.service'; // 👈 Import VehicleService
+import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import AppSidebarComponent
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ import { VehicleService } from '../../services/vehicle.service'; // 👈 Import 
             CommonModule, 
             RouterModule, 
             FormsModule,
-            VehicleCardComponent // 👈 Import VehicleCardComponent
+            VehicleCardComponent, // 👈 Import VehicleCardComponent
+            SidebarComponent // 👈 Import AppSidebarComponent
           ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
