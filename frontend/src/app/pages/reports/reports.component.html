@@ -1,146 +1,156 @@
-<!-- src/app/reports/reports.component.html -->
 <app-navbar #navbar></app-navbar>
-  
-  <div class="flex">
-    <!-- Sidebar -->
-    <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block" ></app-sidebar>
-  
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Maintenance Reports</h1>
-        <button (click)="generateNewReport()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-          <i class="fas fa-plus mr-1"></i> Generate Report
+<div class="flex">
+  <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+
+  <main class="flex-1 p-6 bg-gray-100">
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Maintenance Reports</h1>
+      <!-- <button (click)="generateNewReport()"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        <i class="fas fa-plus mr-1"></i> Generate Report
+      </button> -->
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block mb-1">Vehicle</label>
+        <select [(ngModel)]="filter.vehicleId" class="w-full border px-3 py-2 rounded">
+          <option value="">All Vehicles</option>
+          <option *ngFor="let v of vehicles" [value]="v._id">
+            {{ v.make }} {{ v.model }} ({{ v.plate }})
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1">Start Date</label>
+        <input type="date" [(ngModel)]="filter.startDate" class="w-full border px-3 py-2 rounded">
+      </div>
+      <div>
+        <label class="block mb-1">End Date</label>
+        <input type="date" [(ngModel)]="filter.endDate" class="w-full border px-3 py-2 rounded">
+      </div>
+      <div class="flex items-end space-x-2">
+        <button (click)="applyFilters()"
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          Filter
+        </button>
+        <button (click)="clearFilters()"
+                class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
+          Clear
         </button>
       </div>
-  
-      <!-- Filters -->
-      <div class="bg-white p-4 rounded-lg shadow mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
-          <div class="flex-1">
-            <label class="block text-gray-700 mb-1">Vehicle</label>
-            <select class="w-full px-3 py-2 border rounded-lg">
-              <option>All Vehicles</option>
-              <option selected>Toyota Camry (CAA-5543)</option>
-              <option>Toyota Vitz (CAV-4563)</option>
-            </select>
-          </div>
-          <div class="flex-1">
-            <label class="block text-gray-700 mb-1">Report Type</label>
-            <select class="w-full px-3 py-2 border rounded-lg">
-              <option>All Types</option>
-              <option selected>Maintenance History</option>
-              <option>Cost Analysis</option>
-              <option>Service Intervals</option>
-            </select>
-          </div>
-          <div class="flex-1">
-            <label class="block text-gray-700 mb-1">Date Range</label>
-            <select class="w-full px-3 py-2 border rounded-lg">
-              <option>Last 3 Months</option>
-              <option selected>Last 6 Months</option>
-              <option>Last Year</option>
-              <option>Custom Range</option>
-            </select>
-          </div>
-          <div class="self-end">
-            <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300">
-              <i class="fas fa-filter mr-1"></i> Apply Filters
-            </button>
-          </div>
-        </div>
+    </div>
+
+    <!-- Available Reports -->
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+
+      <h2 class="text-xl font-bold mb-4">Available Reports</h2>
+
+      <div class="overflow-x-auto mb-4" id="reportTable">
+        <table class="min-w-full">
+          <thead>
+            <tr class="border-b bg-gray-50">
+              <th class="text-left py-2">Report Name</th>
+              <th class="text-left py-2">Vehicle</th>
+              <th class="text-left py-2">Type</th>
+              <!-- <th class="text-left py-2">Date Range</th> -->
+              <th class="text-left py-2">Generated On</th>
+              <th class="text-left py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reports" class="border-b hover:bg-gray-50">
+              <td class="py-3">{{ r.name || 'Report' }}</td>
+              <td class="py-3">
+                {{ r.vehicleId.make }} {{ r.vehicleId.model }} ({{ r.vehicleId.plate }})
+              </td>
+              <td class="py-3">
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                  {{ r.type || 'Prediction' }}
+                </span>
+              </td>
+                <!-- <td class="py-3">
+                  {{ r.startDate | date:'MMM d, y' }} – {{ r.endDate | date:'MMM d, y' }}
+                </td> -->
+              <td class="py-3">{{ r.createdAt | date:'short' }}</td>
+              <td class="py-3 space-x-2">
+                <button (click)="viewReport(r)"
+                        class="text-blue-500 hover:underline">
+                  <i class="fas fa-eye mr-1"></i> View
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-  
-      <!-- Available Reports -->
-      <div class="bg-white p-4 rounded-lg shadow mb-6">
-        <h2 class="text-xl font-bold mb-4">Available Reports</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead>
-              <tr class="border-b">
-                <th class="text-left py-2">Report Name</th>
-                <th class="text-left py-2">Vehicle</th>
-                <th class="text-left py-2">Type</th>
-                <th class="text-left py-2">Date Range</th>
-                <th class="text-left py-2">Generated On</th>
-                <th class="text-left py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b hover:bg-gray-50">
-                <td class="py-3">Annual Maintenance Summary</td>
-                <td class="py-3">All Vehicles</td>
-                <td class="py-3">
-                  <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Comprehensive</span>
-                </td>
-                <td class="py-3">Jan 2024 - Dec 2024</td>
-                <td class="py-3">2 May 2025</td>
-                <td class="py-3">
-                  <button (click)="viewReport(1)" class="text-blue-500 hover:underline mr-2">
-                    <i class="fas fa-eye mr-1"></i> View
-                  </button>
-                  <button (click)="downloadReport(1, 'pdf')" class="text-gray-500 hover:text-gray-700 mr-2">
-                    <i class="fas fa-file-pdf mr-1"></i> PDF
-                  </button>
-                  <button (click)="downloadReport(1, 'csv')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-file-csv mr-1"></i> CSV
-                  </button>
-                </td>
-              </tr>
-              <!-- Repeat more rows as needed -->
-            </tbody>
-          </table>
-        </div>
+
+
+
+      <div class="flex space-x-2">
+        <button (click)="downloadCSV()"
+                class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+          <i class="fas fa-file-csv mr-1"></i> Download CSV
+        </button>
+        <button (click)="downloadPDF()"
+                class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+          <i class="fas fa-file-pdf mr-1"></i> Download PDF
+        </button>
       </div>
-  
-      <!-- Templates -->
-      <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-bold mb-4">Report Templates</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="border rounded p-4 hover:shadow-md transition duration-200">
-            <div class="flex items-start mb-3">
-              <div class="bg-blue-100 p-2 rounded mr-3">
-                <i class="fas fa-list-check text-blue-600"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold">Maintenance Checklist</h3>
-                <p class="text-sm text-gray-600">Detailed service checklist</p>
-              </div>
-            </div>
-            <button (click)="useTemplate(1)" class="w-full bg-blue-50 text-blue-600 py-1 rounded text-sm hover:bg-blue-100">
-              View
-            </button>
-          </div>
-          <div class="border rounded p-4 hover:shadow-md transition duration-200">
-            <div class="flex items-start mb-3">
-              <div class="bg-green-100 p-2 rounded mr-3">
-                <i class="fas fa-dollar-sign text-green-600"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold">Cost Summary</h3>
-                <p class="text-sm text-gray-600">Expense breakdown by category</p>
-              </div>
-            </div>
-            <button (click)="useTemplate(2)" class="w-full bg-green-50 text-green-600 py-1 rounded text-sm hover:bg-green-100">
-              View
-            </button>
-          </div>
-          <div class="border rounded p-4 hover:shadow-md transition duration-200">
-            <div class="flex items-start mb-3">
-              <div class="bg-purple-100 p-2 rounded mr-3">
-                <i class="fas fa-chart-line text-purple-600"></i>
-              </div>
-              <div>
-                <h3 class="font-semibold">Service Intervals</h3>
-                <p class="text-sm text-gray-600">Visual timeline of services</p>
-              </div>
-            </div>
-            <button (click)="useTemplate(3)" class="w-full bg-purple-50 text-purple-600 py-1 rounded text-sm hover:bg-purple-100">
-              View
-            </button>
-          </div>
+    </div>
+
+    <!-- View Prediction Detail Modal -->
+    <div *ngIf="selectedReport" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg w-full max-w-xl shadow-lg relative" id="report-detail-content">
+
+        <button (click)="selectedReport = null" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
+        
+        <h2 class="text-xl font-bold mb-4">Prediction Report Details</h2>
+
+        <p><strong>Vehicle:</strong> {{ selectedReport.vehicleId.make }} {{ selectedReport.vehicleId.model }} ({{ selectedReport.vehicleId.plate }})</p>
+        <p><strong>Email:</strong> {{ selectedReport.ownerEmail }}</p>
+        <p><strong>Generated:</strong> {{ selectedReport.createdAt | date:'medium' }}</p>
+        <p><strong>Maintenance Required:</strong>
+          <span [ngClass]="selectedReport.maintenanceRequired ? 'text-red-600' : 'text-green-600'">
+            {{ selectedReport.maintenanceRequired ? 'YES' : 'NO' }}
+          </span>
+        </p>
+        <p><strong>Confidence:</strong> {{ selectedReport.confidence || 0 }}%</p>
+        <p *ngIf="selectedReport.maintenanceRequired" class="mt-4 text-red-600 font-semibold">
+          ⚠️ Please show your vehicle to a certified service station.
+        </p>
+
+        <div class="mt-4">
+          <h3 class="font-semibold mb-2">Input Data</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><strong>Mileage:</strong> {{ selectedReport.inputData.mileage }} km</li>
+            <li><strong>Engine Temp:</strong> {{ selectedReport.inputData.engine_temperature }} °C</li>
+            <li><strong>Speed:</strong> {{ selectedReport.inputData.speed }} km/h</li>
+            <li><strong>Battery Voltage:</strong> {{ selectedReport.inputData.battery_voltage }} V</li>
+            <li><strong>Tire Pressure:</strong> {{ selectedReport.inputData.tire_pressure }} psi</li>
+          </ul>
         </div>
+
+
+        <!-- <div class="mt-6 text-right">
+          <button (click)="selectedReport = null" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Close
+          </button>
+        </div> -->
+        <!-- report download buttons -->
+        <div class="mt-4 flex justify-end space-x-2">
+          <button (click)="downloadSelectedReportPDF()"
+                  class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+            <i class="fas fa-file-pdf mr-1"></i> Download Report
+          </button>
+          <button (click)="selectedReport = null"
+                  class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+            Close
+          </button>
+        </div>
+
       </div>
-    </main>
-  </div>
-  
+    </div>
+  </main>
+</div>

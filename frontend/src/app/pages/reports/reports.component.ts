@@ -1,47 +1,118 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule }   from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { SidebarComponent } from '../../components/sidebar/sidebar.component'; // 👈 Import AppSidebarComponent
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { VehicleService } from '../../services/vehicle.service';
+import { ReportService }  from '../../services/report.service';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     NavbarComponent,
-    SidebarComponent, // 👈 Import AppSidebarComponent
-    // Add any other modules you need here, e.g., FormsModule, ReactiveFormsModule, etc.
+    SidebarComponent
   ],
   templateUrl: './reports.component.html',
-  styleUrl: './reports.component.css'
+  styleUrls: ['./reports.component.css']
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
+  vehicles: any[] = [];
+  reports: any[] = [];
+  filter = {
+    vehicleId: '',
+    startDate: '',
+    endDate: ''
+  };
+  selectedReport: any = null;  // ✨ Add this line
+  
+  constructor(
+    private vs: VehicleService,
+    private rs: ReportService
+  ) {}
 
-  logout() {
-    localStorage.removeItem('authToken');
-    // window.location.href = '/login';
+  ngOnInit() {
+    const email = localStorage.getItem('userEmail')!;
+    // load vehicles for filter dropdown
+    this.vs.getVehiclesByOwner(email).subscribe(vs => this.vehicles = vs);
+    // initial load (all)
+    this.loadReports();
+  }
+
+  loadReports() {
+    const email = localStorage.getItem('userEmail')!;
+    this.rs.getReports(email, this.filter).subscribe(
+      reps => this.reports = reps,
+      err  => console.error('Load reports failed', err)
+    );
+  }
+
+
+  downloadSelectedReportPDF() {
+    const element = document.getElementById('report-detail-content');
+    if (!element) return;
+
+    const opt = {
+      margin:       0.5,
+      filename:     `prediction-report-${new Date().toISOString()}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().from(element).set(opt).save();
+  }
+
+
+  viewReport(report: any) {
+    this.selectedReport = report;  // ✨ Assign report to selectedReport
+  }
+
+  applyFilters() {
+    this.loadReports();
+  }
+
+  clearFilters() {
+    this.filter = { vehicleId:'', startDate:'', endDate:'' };
+    this.loadReports();
+  }
+
+  // viewReport(id: string) {
+  //   // e.g. open a detail modal
+  //   alert(`Viewing report ${id}`);
+  // }
+
+  downloadCSV() {
+    // simple CSV download of displayed table
+    const headers = ['Report Name','Vehicle','Type','Date Range','Generated On'];
+    const rows = this.reports.map(r => [
+      r.name || 'Report',
+      `${r.vehicleId.make} ${r.vehicleId.model}`,
+      r.type || '—',
+      `${new Date(r.startDate).toLocaleDateString()} - ${new Date(r.endDate).toLocaleDateString()}`,
+      new Date(r.createdAt).toLocaleString()
+    ]);
+    let csv = headers.join(',') + '\n'
+            + rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'reports.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  downloadPDF() {
+    const element = document.getElementById('reportTable')!;
+    html2pdf().from(element).set({ margin:1 }).save('reports.pdf');
   }
 
   generateNewReport() {
     alert('Report generation wizard would open here');
-  }
-
-  viewReport(id: number) {
-    alert(`Viewing report ${id}`);
-  }
-
-  downloadReport(id: number, format: string) {
-    alert(`Downloading report ${id} as ${format.toUpperCase()}`);
-  }
-
-  useTemplate(id: number) {
-    alert(`Using template ${id} for new report`);
-  }
-
-  ngOnInit() {
-    if (!localStorage.getItem('authToken')) {
-      // window.location.href = '/login';
-    }
   }
 
 }
