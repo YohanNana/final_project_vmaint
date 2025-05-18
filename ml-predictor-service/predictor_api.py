@@ -36,8 +36,13 @@ def predict():
         df = df[expected]
 
         # 5) Predict
-        pred = model.predict(df)[0]
-        return jsonify({"maintenance_required": int(pred)})
+        pred  = model.predict(df)[0]
+        proba = model.predict_proba(df)[0]     # e.g. [0.12, 0.88]
+        
+        return jsonify({
+            "maintenance_required": int(pred),
+            "confidence": float(proba[pred] * 100),          # e.g. 98
+        })
 
     except Exception as e:
         # return 500 + error message for debugging
