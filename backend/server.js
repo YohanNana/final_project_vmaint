@@ -7,6 +7,7 @@ import vehicleRoutes from './routes/vehicleRoutes.js';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import maintenanceRoutes from './routes/maintenanceRoutes.js';
+import predictionRoutes from './routes/predictionRoutes.js'; // Prediction routes
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/vehicles', vehicleRoutes); // Vehicle routes
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/maintenance', maintenanceRoutes); // Maintenance routes
+app.use('/api/predictions', predictionRoutes); // Prediction routes
 
 // Example route
 app.get('/', (req, res) => {

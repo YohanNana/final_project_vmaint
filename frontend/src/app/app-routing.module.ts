@@ -35,6 +35,10 @@ const routes: Routes = [
     path: 'vehicle-details/:id',
     loadComponent: () => import('./pages/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
   }, // Add the route for VehicleDetailsComponent with ID parameter
+  // {
+  //   path: 'prediction',
+  //   loadComponent: () => import('./pages/prediction-page/prediction-page.component').then(m => m.PredictionPageComponent)
+  // }
   // add more routes here
 ];
 
