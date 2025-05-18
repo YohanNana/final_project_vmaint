@@ -32,25 +32,15 @@
         </div>
   
         <ul class="divide-y divide-gray-200 mb-6">
-          <li class="py-4 flex">
+          <li *ngFor="let note of notifications" class="py-4 flex">
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">New maintenance scheduled for your vehicle</p>
-              <p class="text-sm text-gray-500">2 hours ago</p>
-            </div>
-          </li>
-          <li class="py-4 flex">
-            <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">Your tire replacement is due soon</p>
-              <p class="text-sm text-gray-500">1 day ago</p>
-            </div>
-          </li>
-          <li class="py-4 flex">
-            <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">Oil change recommended based on last service</p>
-              <p class="text-sm text-gray-500">3 days ago</p>
+              <p class="text-sm font-medium text-gray-900">{{ note.title }}</p>
+              <p class="text-sm text-gray-500">{{ note.message }}</p>
+              <p class="text-xs text-gray-400">{{ note.createdAt | date:'short' }}</p>
             </div>
           </li>
         </ul>
+
   
         <div class="border-t pt-4">
           <h3 class="text-lg font-semibold mb-2">Notification Settings</h3>

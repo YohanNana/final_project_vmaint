@@ -1,57 +1,70 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { CommonModule, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-notifications',
   standalone: true,
   imports: [
-    RouterLink,
+    CommonModule,
     FormsModule,
+    RouterLink,
     NavbarComponent,
-    // Add any other components or modules you need to import here
+    DatePipe
   ],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.css'
 })
 export class NotificationsComponent {
 
-  emailNotifications = true;
-  smsAlerts = true;
+  notifications: any[] = [];
+  email = localStorage.getItem('userEmail')!;
+
+  // ✅ Add missing properties for notification settings
+  emailNotifications = false;
+  smsAlerts = false;
   pushNotifications = false;
 
-  constructor(private router: Router) {
-    this.checkAuth();
+  constructor(private ns: NotificationService) {
+    // Optionally implement or remove this
+    // this.checkAuth();
   }
 
-  checkAuth() {
-    const token = localStorage.getItem('authToken');
-    // if (!token) {
-    //   this.router.navigate(['/login']);
-    // }
+  ngOnInit() {
+    this.loadNotifications();
   }
 
-  // logout() {
-  //   localStorage.removeItem('authToken');
-  //   this.router.navigate(['/login']);
-  // }
+  loadNotifications() {
+    this.ns.list(this.email).subscribe((n: any) => {
+      this.notifications = Array.isArray(n) ? n : [];
+    });
+  }
 
   markAllAsRead() {
-    alert('All notifications marked as read');
-    // In a real app, you'd call a service to mark them
+    this.ns.markAllRead(this.email).subscribe(() => this.loadNotifications());
   }
 
   clearAll() {
-    if (confirm('Are you sure you want to clear all notifications?')) {
-      alert('All notifications cleared');
-      // Here, you'd clear notifications from backend or state
+    if (confirm('Are you sure?')) {
+      this.ns.clearAll(this.email).subscribe(() => this.loadNotifications());
     }
   }
 
+  // ✅ Add missing method
   saveSettings() {
-    alert('Notification settings saved');
-    // Here you could save settings to a backend
+    // You can send this data to the server or just console.log
+    console.log({
+      emailNotifications: this.emailNotifications,
+      smsAlerts: this.smsAlerts,
+      pushNotifications: this.pushNotifications
+    });
   }
 
+  // ✅ Optional: Remove this method or implement it properly
+  // private checkAuth() {
+  //   // implement if needed
+  // }
 }
