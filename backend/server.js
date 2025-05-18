@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes.js';
 import maintenanceRoutes from './routes/maintenanceRoutes.js';
 import predictionRoutes from './routes/predictionRoutes.js'; // Prediction routes
 import reportRoutes from './routes/reportRoutes.js'; // Report routes
+import analyticsRoutes from './routes/analyticsRoutes.js'; // Analytics routes
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/maintenance', maintenanceRoutes); // Maintenance routes
 app.use('/api/predictions', predictionRoutes); // Prediction routes
 app.use('/api/reports', reportRoutes); // Report routes
+app.use('/api/analytics', analyticsRoutes); // Analytics routes
 
 // Example route
 app.get('/', (req, res) => {
