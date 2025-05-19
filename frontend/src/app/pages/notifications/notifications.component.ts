@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { NotificationService } from '../../services/notification.service';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-notifications',
@@ -13,7 +14,8 @@ import { NotificationService } from '../../services/notification.service';
     FormsModule,
     RouterLink,
     NavbarComponent,
-    DatePipe
+    DatePipe,
+    SidebarComponent
   ],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.css'

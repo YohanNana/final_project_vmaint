@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // 👈 Import RouterModule for *ngIf
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router'; // 👈 Import RouterModule for 
     RouterLink,
     NavbarComponent,// 👈 Import NavbarComponent
     CommonModule,
-    RouterModule // Required for *ngIf in the HTML template
+    RouterModule, // Required for *ngIf in the HTML template
+    SidebarComponent // 👈 Import SidebarComponent
   ],
   templateUrl: './vehicle-details.component.html',
   styleUrls: ['./vehicle-details.component.css']

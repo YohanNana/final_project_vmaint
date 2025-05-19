@@ -4,22 +4,7 @@
   <!-- Sidebar + Content Layout -->
   <div class="flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
-        <div class="space-y-4">
-          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-            <a routerLink="/dashboard" class="flex items-center">
-              <i class="fas fa-tachometer-alt mr-2"></i>
-              <span>Dashboard</span>
-            </a>
-          </div>
-          <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-            <a routerLink="/notifications" class="flex items-center">
-              <i class="fas fa-bell mr-2"></i>
-              <span>Notifications</span>
-            </a>
-          </div>
-        </div>
-      </aside>
+    <app-sidebar  ></app-sidebar>
   
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100 min-h-screen">

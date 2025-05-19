@@ -3,8 +3,8 @@ import {
   // addMaintenance,
   // getAllByOwner,
   // getByVehicleId,
-  // deleteMaintenance,
-  // updateMaintenance,
+  deleteMaintenance,
+  updateMaintenance,
   createMaintenanceRecord,
   getMaintenanceByUserEmail,
   getMaintenanceByVehicleId
@@ -15,8 +15,8 @@ const router = express.Router();
 // router.post('/', addMaintenance);
 // router.get('/owner/:email', getAllByOwner);
 
-// router.put('/:id', updateMaintenance);
-// router.delete('/:id', deleteMaintenance);
+router.put('/:id', updateMaintenance);
+router.delete('/:id', deleteMaintenance);
 
 // ✅ And this one too (for adding records)
 router.post('/', createMaintenanceRecord);

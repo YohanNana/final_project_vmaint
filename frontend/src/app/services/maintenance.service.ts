@@ -26,8 +26,8 @@ export class MaintenanceService {
   }
 
   // Optional: Edit a record
-  updateMaintenance(id: string, updatedData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, updatedData);
+  updateMaintenance(id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
   // Optional: Delete a record

@@ -71,6 +71,25 @@ export class ReportsComponent implements OnInit {
     this.selectedReport = report;  // ✨ Assign report to selectedReport
   }
 
+
+  getEngineTempClass(temp: number): string {
+    if (temp > 110) return 'text-red-600 font-bold';
+    if (temp < 70) return 'text-blue-600 font-bold';
+    return '';
+  }
+
+  getBatteryClass(voltage: number): string {
+    if (voltage > 13.5 || voltage < 10) return 'text-red-600 font-bold';
+    return '';
+  }
+
+  getTirePressureClass(psi: number): string {
+    if (psi > 40 || psi < 20) return 'text-red-600 font-bold';
+    return '';
+  }
+
+
+
   applyFilters() {
     this.loadReports();
   }

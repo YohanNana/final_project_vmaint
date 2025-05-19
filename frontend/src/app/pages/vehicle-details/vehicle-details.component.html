@@ -4,16 +4,7 @@
 <!-- Main Content with Sidebar -->
 <div class="flex">
   <!-- Sidebar -->
-  <aside class="w-64 bg-gray-800 text-white p-4 hidden md:block">
-    <div class="space-y-4">
-      <div class="p-2 hover:bg-gray-700 rounded cursor-pointer">
-        <a routerLink="/dashboard" class="flex items-center">
-          <i class="fas fa-tachometer-alt mr-2"></i>
-          <span>Dashboard</span>
-        </a>
-      </div>
-    </div>
-  </aside>
+  <app-sidebar class="md:block"></app-sidebar>
 
   <!-- Vehicle Details -->
   <main class="flex-1 p-6">
@@ -81,10 +72,26 @@
                 <h3 class="text-gray-500">Owner Email</h3>
                 <p class="font-semibold">{{ vehicle.ownerEmail }}</p>
               </div>
+              <div>
+                <h3 class="text-gray-500">Current Mileage</h3>
+                <p class="font-semibold">{{ vehicle.mileage }} km</p>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Vehicle Color</h3>
+                <p class="font-semibold">{{ vehicle.color }}</p>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Engine Type</h3>
+                <p class="font-semibold">{{ vehicle.engine }}</p>
+              </div>
+              <div>
+                <h3 class="text-gray-500">Purchase Date</h3>
+                <p class="font-semibold">{{ vehicle.purchaseDate | date:'dd MMM yyyy' }}</p>
+              </div>
             </div>
 
             <!-- Maintenance Summary -->
-            <div class="mt-6" *ngIf="vehicle.maintenanceSummary">
+            <!-- <div class="mt-6" *ngIf="vehicle.maintenanceSummary">
               <h2 class="text-lg font-semibold mb-2">Maintenance Summary</h2>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-blue-50 p-3 rounded">
@@ -102,12 +109,12 @@
                   <p class="text-xs text-gray-500">Next due in {{ vehicle.maintenanceSummary.nextTireRotationIn }} km</p>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <!-- Maintenance History -->
-        <div class="mt-8">
+        <!-- <div class="mt-8">
           <h2 class="text-xl font-bold mb-4">Recent Maintenance</h2>
 
           <ng-container *ngIf="vehicle.recentMaintenance?.length > 0; else noMaintenance">
@@ -143,7 +150,7 @@
           <ng-template #noMaintenance>
             <p class="text-gray-500 italic">No recent maintenance records available.</p>
           </ng-template>
-        </div>
+        </div> -->
       </div>
     </div>
   </main>

@@ -94,3 +94,22 @@ export const getMaintenanceByVehicleId = async (req, res) => {
     return res.status(500).json({ message: 'Failed to fetch records', error: error.message });
   }
 };
+
+
+export const updateMaintenance = async (req, res) => {
+  try {
+    const updated = await Maintenance.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+export const deleteMaintenance = async (req, res) => {
+  try {
+    await Maintenance.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
