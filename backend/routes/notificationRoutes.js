@@ -1,17 +1,19 @@
-// routes/notificationRoutes.js
 import express from 'express';
 import {
-  createNotification,
-  getNotifications,
-  markAllRead,
+  getNotificationsByUser,
+  markRead,
   clearAll
-} from '../controllers/notificationController.js';
+} from '../controllers/notificationController.js';  // <-- now matches exports
 
 const router = express.Router();
 
-router.post('/', createNotification);
-router.get('/:email', getNotifications);
-router.put('/:email/mark-all-read', markAllRead);
+// fetch list
+router.get('/:email', getNotificationsByUser);
+
+// mark them read
+router.put('/:email/mark-all-read', markRead);
+
+// clear all
 router.delete('/:email/clear-all', clearAll);
 
 export default router;

@@ -38,8 +38,14 @@ export class NotificationsComponent {
   }
 
   loadNotifications() {
-    this.ns.list(this.email).subscribe((n: any) => {
-      this.notifications = Array.isArray(n) ? n : [];
+    this.ns.list(this.email).subscribe({
+      next: (n: any) => {
+        console.log('🛎️ Loaded notifications:', n);
+        this.notifications = Array.isArray(n) ? n : [];
+      },
+      error: (err) => {
+        console.error('❌ Failed to load notifications:', err);
+      }
     });
   }
 

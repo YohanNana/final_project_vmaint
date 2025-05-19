@@ -1,5 +1,7 @@
 // controllers/maintenanceController.js
-import Maintenance from '../models/maintenanceModel.js';
+import Maintenance  from '../models/maintenanceModel.js';
+import Vehicle      from '../models/vehicleModel.js';      // ➕ to read nextServiceDue & plate
+import Notification from '../models/notificationModel.js'; // ➕ for upcoming reminders
 
 /**
  * POST /api/maintenance
@@ -18,7 +20,6 @@ export const createMaintenanceRecord = async (req, res) => {
     ownerEmail
   } = req.body;
 
-  // Validate required
   if (!vehicleId || !serviceType || !serviceDate || !ownerEmail) {
     return res
       .status(400)
@@ -26,7 +27,9 @@ export const createMaintenanceRecord = async (req, res) => {
   }
 
   try {
-    const record = new Maintenance({
+    // ————————————————
+    // ① Save the maintenance record
+    const record = await new Maintenance({
       vehicleId,
       serviceType,
       serviceDate,
@@ -34,9 +37,26 @@ export const createMaintenanceRecord = async (req, res) => {
       cost,
       notes,
       ownerEmail
-    });
-    const saved = await record.save();
-    return res.status(201).json(saved);
+    }).save();
+
+    // ② Load vehicle to check upcoming due date
+    const vehicle = await Vehicle.findById(vehicleId);
+
+    // ③ If nextServiceDue is within 7 days, send reminder
+    const now     = new Date();
+    const nextDue = new Date(vehicle.nextServiceDue);
+    const daysUntil = Math.ceil((nextDue - now) / (1000 * 60 * 60 * 24));
+
+    if (daysUntil > 0 && daysUntil <= 7) {
+      await new Notification({
+        ownerEmail: ownerEmail,
+        title:   '🔧 Upcoming Service Reminder',
+        message: `Your ${vehicle.make} ${vehicle.model} (${vehicle.plate}) is due for service in ${daysUntil} day${daysUntil > 1 ? 's' : ''}.`
+      }).save();
+    }
+    // ————————————————
+
+    return res.status(201).json(record);
   } catch (error) {
     console.error('❌ Failed to create maintenance record:', error);
     return res.status(500).json({ message: 'Failed to create record', error: error.message });
@@ -74,44 +94,3 @@ export const getMaintenanceByVehicleId = async (req, res) => {
     return res.status(500).json({ message: 'Failed to fetch records', error: error.message });
   }
 };
-
-
-
-// export const getAllByOwner = async (req, res) => {
-//   try {
-//     const { email } = req.params;
-//     const records = await Maintenance.find({ ownerEmail: email }).populate('vehicleId');
-//     res.json(records);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to fetch maintenance history', error: error.message });
-//   }
-// };
-
-// export const getByVehicleId = async (req, res) => {
-//   try {
-//     const { vehicleId } = req.params;
-//     const records = await Maintenance.find({ vehicleId }).sort({ dueDate: 1 });
-//     res.json(records);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Failed to fetch maintenance', error: error.message });
-//   }
-// };
-
-// export const deleteMaintenance = async (req, res) => {
-//   try {
-//     await Maintenance.findByIdAndDelete(req.params.id);
-//     res.json({ message: 'Deleted successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Delete failed', error: error.message });
-//   }
-// };
-
-// export const updateMaintenance = async (req, res) => {
-//   try {
-//     const updated = await Maintenance.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//     res.json(updated);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Update failed', error: error.message });
-//   }
-// };
-

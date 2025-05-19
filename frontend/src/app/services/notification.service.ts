@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private base = 'http://localhost:3000/api/notifications';
+  private base = 'http://localhost:5000/api/notifications';
 
   constructor(private http: HttpClient) {}
 

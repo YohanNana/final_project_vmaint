@@ -4,6 +4,8 @@
   <main class="flex-1 p-6 bg-gray-100">
 
     <div class="bg-white p-6 rounded-lg shadow mb-6">
+      <!-- form -->
+      <form #predictionForm="ngForm" (ngSubmit)="makePrediction()">
       <h2 class="text-lg font-semibold mb-4">Make a New Prediction</h2>
 
       <!-- select a vehicle -->
@@ -21,41 +23,44 @@
         <div>
           <label>Mileage (km)</label>
           <input type="number" [(ngModel)]="formData.mileage" name="mileage"
-                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 120 000"/>
+                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 120 000" required />
         </div>
         <div>
           <label>Engine Temp (°C)</label>
           <input type="number" [(ngModel)]="formData.engine_temperature" name="engine_temperature"
-                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 95.0"/>
+                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 95.0" required />
         </div>
         <div>
           <label>Average Speed (km/h)</label>
           <input type="number" [(ngModel)]="formData.speed" name="speed"
-                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 60"/>
+                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 60" required />
         </div>
         <div>
           <label>Battery Voltage (V)</label>
           <input type="number" [(ngModel)]="formData.battery_voltage" name="battery_voltage"
-                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 12.8"/>
+                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 12.8" required />
         </div>
         <div>
           <label>Tire Pressure (psi)</label>
           <input type="number" [(ngModel)]="formData.tire_pressure" name="tire_pressure"
-                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 32"/>
+                 class="w-full border px-3 py-2 rounded" placeholder="e.g. 32" required />
         </div>
       </div>
 
-      <button (click)="makePrediction()"
-              class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      <button type="submit"
+              [disabled]="!predictionForm.form.valid || loading"
+              class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50">
         {{ loading ? 'Predicting…' : 'Predict Maintenance' }}
       </button>
+
 
       <div *ngIf="predictionResult !== null" class="mt-4 text-lg">
         Maintenance Required:
         <span [ngClass]="predictionResult ? 'text-red-600' : 'text-green-600'">
-          {{ predictionResult ? 'YES' : 'NO' }}
+          {{ predictionResult ? 'YES, ⚠️ Please show your vehicle to a certified service station.' : 'NO, ✅ Your vehicle is currently in good condition.' }}
         </span>
       </div>
+      </form>
     </div>
 
     <!-- vehicle dropdown -->

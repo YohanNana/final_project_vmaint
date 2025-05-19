@@ -1,38 +1,46 @@
 // controllers/notificationController.js
 import Notification from '../models/notificationModel.js';
 
-export const createNotification = async (req, res) => {
+/**
+ * GET /api/notifications/user/:email
+ * List all notifications for a user.
+ */
+export const getNotificationsByUser = async (req, res) => {
   try {
-    const note = new Notification(req.body);
-    await note.save();
-    res.status(201).json(note);
-  } catch (e) {
-    res.status(500).json({ message: e.message });
-  }
-};
-
-export const getNotifications = async (req, res) => {
-  try {
-    const notes = await Notification.find({ ownerEmail: req.params.email }).sort({ createdAt: -1 });
+    const email = req.params.email;
+    const notes = await Notification.find({ ownerEmail: email }).sort({ createdAt: -1 });
     res.json(notes);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-export const markAllRead = async (req, res) => {
+/**
+ * PUT /api/notifications/:email/mark-all-read
+ * Mark all of a user’s notifications as read.
+ */
+export const markRead = async (req, res) => {
   try {
-    await Notification.updateMany({ ownerEmail: req.params.email }, { read: true });
-    res.status(200).json({ message: "All marked as read." });
+    const { email } = req.params;
+    await Notification.updateMany(
+      { ownerEmail: email, read: false },
+      { read: true }
+    );
+    res.sendStatus(204);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
+/**
+ * DELETE /api/notifications/:email/clear-all
+ * Delete all notifications for a user.
+ */
 export const clearAll = async (req, res) => {
   try {
-    await Notification.deleteMany({ ownerEmail: req.params.email });
-    res.status(200).json({ message: "All notifications cleared." });
+    const { email } = req.params;
+    await Notification.deleteMany({ ownerEmail: email });
+    res.sendStatus(204);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
