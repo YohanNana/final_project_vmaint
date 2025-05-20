@@ -26,7 +26,7 @@ A full-featured web application for vehicle owners and administrators to manage 
 - Output: Maintenance required (YES/NO) + confidence score
 - Trigger notifications if maintenance is predicted as required
 
-### 📊 Admin Dashboard (admin@gmail.com only)
+### 📊 Admin Dashboard
 - View all registered users
 - View all vehicles
 - Delete or ban users
@@ -106,8 +106,6 @@ ng serve
 * ⚠️ Make sure MongoDB is running locally or use MongoDB Atlas
 * Backend must run on `localhost:5000` to align with Angular API calls
 * Admin login uses:
-  **Email:** `admin@gmail.com`
-  **Password:** *(Set this during manual seeding or registration)*
 
 ---
 
@@ -117,13 +115,6 @@ ng serve
 * Model runs in Python and integrates via prediction API or can be simulated
 * Sample prediction result stored and consumed by Angular frontend
 
----
-
-## 📷 Screenshots
-
-| Dashboard                      | Maintenance History          | Prediction                      |
-| ------------------------------ | ---------------------------- | ------------------------------- |
-| ![](screenshots/dashboard.png) | ![](screenshots/history.png) | ![](screenshots/prediction.png) |
 
 ---
 
@@ -142,7 +133,7 @@ ng serve
 **Yohan Nanayakkara**
 Final Year Project – NSBM Green University
 Dept. of Computer Science
-Mentored by \[Your Supervisor's Name Here]
+Mentored by Mr. Chamara Disanayake
 
 ---
 
@@ -152,13 +143,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ```
 
----
 
-## ✅ Tips for Uploading
-
-1. Place the `README.md` file in the **root** of your Git repo.
-2. Include optional screenshots in a `screenshots/` folder for GitHub rendering.
-3. If you're using GitHub Pages or Firebase later, I can help with deployment steps too.
-
-Would you like a `LICENSE` file or `.gitignore` for this too?
 ```
