@@ -73,7 +73,7 @@ export class ReportsComponent implements OnInit {
 
 
   getEngineTempClass(temp: number): string {
-    if (temp > 110) return 'text-red-600 font-bold';
+    if (temp > 105) return 'text-red-600 font-bold';
     if (temp < 70) return 'text-blue-600 font-bold';
     return '';
   }
@@ -84,7 +84,7 @@ export class ReportsComponent implements OnInit {
   }
 
   getTirePressureClass(psi: number): string {
-    if (psi > 40 || psi < 20) return 'text-red-600 font-bold';
+    if (psi > 40 || psi < 26) return 'text-red-600 font-bold';
     return '';
   }
 

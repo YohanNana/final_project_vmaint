@@ -2,11 +2,13 @@
 <nav class="bg-gray-900 p-4 text-white">
     <div class="container mx-auto flex justify-between items-center">
       <!-- Logo -->
-      <a routerLink="/dashboard" class="text-2xl font-bold">Vehicle-Maintenance</a>
+      <a routerLink="/dashboard" class="text-2xl font-bold">V-Maint-Predict</a>
   
       <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-6">
-        <a routerLink="/dashboard" class="auth-link">Dashboard</a>
+        <li *ngIf="isAdmin">
+          <a routerLink="/admin-dashboard">Admin Dashboard</a>
+        </li>
         <a routerLink="/profile" class="auth-link">Profile</a>
         <a routerLink="/notifications" class="auth-link">Notifications</a>
         <!-- <a routerLink="/settings" class="auth-link">Settings</a> -->

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router , RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true, // 👈 Must be standalone
-  imports: [RouterModule], // 👈 Needed because you are using routerLink
+  imports: [RouterModule, CommonModule], // 👈 Needed because you are using routerLink
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -12,6 +13,8 @@ export class NavbarComponent {
 
   
   constructor(private router: Router) {}
+
+  isAdmin = localStorage.getItem('userEmail') === 'admin@gmail.com';
 
   logout() {
     document.body.classList.remove('logged-in');

@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
   password:   { type: String, required: true },
   phone:      { type: String },
   accountType:{ type: String, enum: ['Vehicle Owner', 'Mechanic', 'Admin'], default: 'Vehicle Owner' },
-  createdAt:  { type: Date, default: Date.now }
+  createdAt:  { type: Date, default: Date.now },
+  isBanned: { type: Boolean, default: false },
 });
 
 export default mongoose.model('User', userSchema);

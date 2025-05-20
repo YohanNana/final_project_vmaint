@@ -14,6 +14,8 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { LoginComponent } from './pages/login/login.component'; // Import the LoginComponent
 import { RegisterComponent } from './pages/register/register.component';
 import { VehicleComponent } from './components/vehicle/vehicle.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component'; // Import the AdminDashboardComponent
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -35,6 +37,11 @@ const routes: Routes = [
     path: 'vehicle-details/:id',
     loadComponent: () => import('./pages/vehicle-details/vehicle-details.component').then(m => m.VehicleDetailsComponent)
   }, // Add the route for VehicleDetailsComponent with ID parameter
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AdminGuard] // ✅ Only accessible to admin@gmail.com
+  }, // Add the route for AdminDashboardComponent
   // {
   //   path: 'prediction',
   //   loadComponent: () => import('./pages/prediction-page/prediction-page.component').then(m => m.PredictionPageComponent)

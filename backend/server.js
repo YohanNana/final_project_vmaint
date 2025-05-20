@@ -11,6 +11,7 @@ import predictionRoutes from './routes/predictionRoutes.js'; // Prediction route
 import reportRoutes from './routes/reportRoutes.js'; // Report routes
 import analyticsRoutes from './routes/analyticsRoutes.js'; // Analytics routes
 import notificationRoutes from './routes/notificationRoutes.js'; // Notification routes
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use('/api/predictions', predictionRoutes); // Prediction routes
 app.use('/api/reports', reportRoutes); // Report routes
 app.use('/api/analytics', analyticsRoutes); // Analytics routes
 app.use('/api/notifications', notificationRoutes); // Notification routes
+app.use('/api/admin', adminRoutes); // Admin routes
 
 // Example route
 app.get('/', (req, res) => {

@@ -1,0 +1,111 @@
+<app-navbar #navbar></app-navbar>
+
+<!-- Layout -->
+<div class="flex">
+  <!-- Sidebar -->
+  <app-sidebar [class.hidden]="!navbar.sidebarOpen" class="md:block"></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 bg-gray-50 min-h-screen">
+    <h1 class="text-2xl font-bold mb-6">Admin Dashboard</h1>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Total Users</p>
+            <h3 class="text-2xl font-bold">{{ stats.users || 0 }}</h3>
+          </div>
+          <i class="fas fa-users text-blue-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-purple-500">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Total Vehicles</p>
+            <h3 class="text-2xl font-bold">{{ stats.vehicles || 0 }}</h3>
+          </div>
+          <i class="fas fa-car text-purple-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-yellow-500">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Maintenance Records</p>
+            <h3 class="text-2xl font-bold">{{ stats.maintenances || 0 }}</h3>
+          </div>
+          <i class="fas fa-tools text-yellow-500 text-2xl"></i>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Predictions</p>
+            <h3 class="text-2xl font-bold">{{ stats.predictions || 0 }}</h3>
+          </div>
+          <i class="fas fa-chart-line text-green-500 text-2xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-10">
+      <h2 class="text-xl font-semibold mb-4">All Users</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left border border-gray-200">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 font-medium text-gray-600">Email</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Name</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Account Type</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let u of users" class="border-t">
+              <td class="px-4 py-2">{{ u.email }}</td>
+              <td class="px-4 py-2">{{ u.firstName }} {{ u.lastName }}</td>
+              <td class="px-4 py-2">{{ u.accountType }}</td>
+              <td class="px-4 py-2 space-x-2">
+                <button (click)="banUser(u._id)" class="text-yellow-600 hover:underline">
+                  <i class="fas fa-ban"></i> Ban
+                </button>
+                <button (click)="deleteUser(u._id)" class="text-red-600 hover:underline">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Vehicles Table -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-10">
+      <h2 class="text-xl font-semibold mb-4">All Vehicles</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left border border-gray-200">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 font-medium text-gray-600">Make</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Model</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Plate</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Year</th>
+              <th class="px-4 py-2 font-medium text-gray-600">Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let v of vehicles" class="border-t">
+              <td class="px-4 py-2">{{ v.make }}</td>
+              <td class="px-4 py-2">{{ v.model }}</td>
+              <td class="px-4 py-2">{{ v.plate }}</td>
+              <td class="px-4 py-2">{{ v.year }}</td>
+              <td class="px-4 py-2">{{ v.ownerEmail }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
